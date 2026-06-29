@@ -2,8 +2,9 @@
 
 import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
-import { Menu, X, Sun, Moon } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { CurtainLink } from "@/components/transition/CurtainLink";
+import { SkyToggle } from "@/components/ui/sky-toggle";
 import { useAboutMode, toggleAboutMode } from "@/components/about/about-mode";
 import { useReducedTransparency } from "@/lib/use-reduced-transparency";
 
@@ -221,6 +222,14 @@ export function GlassNav({
         ? "border-[#e6a9c0]/45 text-[#f2ecf3] hover:bg-[#e6a9c0]/14"
         : "border-[#9e4668]/45 text-[#2b2733] hover:bg-[#9e4668]/12";
 
+  // Active-page highlight — a soft pill behind the current link (replaces the
+  // old underline), with a fainter version on hover. Tone-aware so it reads on
+  // both the light sakura bar and the dark inner-route bars.
+  const navItem =
+    isWork || isContact || isCraft || isNight
+      ? { active: "bg-white/10", hover: "hover:bg-white/5" }
+      : { active: "bg-[#2b2733]/10", hover: "hover:bg-[#2b2733]/5" };
+
   return (
     <header className="fixed inset-x-0 top-0 z-40 px-3 pt-3 md:px-5 md:pt-4">
       <nav
@@ -238,8 +247,8 @@ export function GlassNav({
         </CurtainLink>
 
         {/* Desktop cluster */}
-        <div className="hidden items-center gap-7 md:flex">
-          <ul className="flex items-center gap-7">
+        <div className="hidden items-center gap-6 md:flex">
+          <ul className="flex items-center gap-1">
             {LINKS.map((l) => {
               const active = isActive(l.href);
               return (
@@ -247,13 +256,11 @@ export function GlassNav({
                   <CurtainLink
                     href={l.href}
                     aria-current={active ? "page" : undefined}
-                    className={`relative rounded-sm text-sm transition-colors motion-reduce:transition-none ${
-                      active ? inkStrong : inkMuted
-                    } ${FOCUS_RING} ${
+                    className={`inline-flex items-center rounded-full px-3 py-1.5 text-sm transition-colors motion-reduce:transition-none ${
                       active
-                        ? "after:absolute after:-bottom-1.5 after:left-0 after:h-0.5 after:w-full after:rounded-full after:bg-current after:content-['']"
-                        : ""
-                    }`}
+                        ? `${inkStrong} ${navItem.active}`
+                        : `${inkMuted} ${navItem.hover}`
+                    } ${FOCUS_RING}`}
                   >
                     {l.label}
                   </CurtainLink>
@@ -272,14 +279,26 @@ export function GlassNav({
           )}
 
           {!isWork && !isContact && !isCraft && (
-            <ThemeToggle isNight={isNight} />
+            <SkyToggle
+              checked={isNight}
+              onChange={toggleAboutMode}
+              label={
+                isNight ? "Switch to daytime view" : "Switch to nighttime view"
+              }
+            />
           )}
         </div>
 
         {/* Mobile cluster */}
         <div className="flex items-center gap-1 md:hidden">
           {!isWork && !isContact && !isCraft && (
-            <ThemeToggle isNight={isNight} />
+            <SkyToggle
+              checked={isNight}
+              onChange={toggleAboutMode}
+              label={
+                isNight ? "Switch to daytime view" : "Switch to nighttime view"
+              }
+            />
           )}
           <button
             ref={toggleRef}
@@ -322,8 +341,8 @@ export function GlassNav({
                     aria-current={active ? "page" : undefined}
                     className={`block rounded-xl px-4 py-3 text-base transition-colors motion-reduce:transition-none ${FOCUS_RING} ${
                       active
-                        ? `${inkStrong} underline decoration-2 underline-offset-[6px]`
-                        : inkMuted
+                        ? `${inkStrong} ${navItem.active}`
+                        : `${inkMuted} ${navItem.hover}`
                     }`}
                   >
                     {l.label}
@@ -344,58 +363,5 @@ export function GlassNav({
         </div>
       </div>
     </header>
-  );
-}
-
-/**
- * Sliding "sky" toggle wired to the day/night store — a sun knob (light) that
- * slides across to a moon knob (dark). Faint hint icons sit on each side; the
- * visible one is the mode you'd switch *to*. Snappy ease-out slide, gated for
- * reduced motion.
- */
-function ThemeToggle({ isNight }: { isNight: boolean }) {
-  return (
-    <button
-      type="button"
-      onClick={toggleAboutMode}
-      role="switch"
-      aria-checked={isNight}
-      aria-label={isNight ? "Switch to daytime view" : "Switch to nighttime view"}
-      title={isNight ? "Daytime" : "Nighttime"}
-      className={`relative grid h-7 w-[3.25rem] grid-cols-2 items-center rounded-full border transition-colors duration-200 ease-out motion-reduce:transition-none ${
-        isNight
-          ? "border-white/15 bg-[#1b1830]/60"
-          : "border-[#2b2733]/15 bg-[#2b2733]/5"
-      } ${FOCUS_RING}`}
-    >
-      {/* Hint icons beneath the knob (sun = light side, moon = dark side). */}
-      <Sun
-        aria-hidden
-        className={`pointer-events-none mx-auto h-3.5 w-3.5 ${
-          isNight ? "text-gold/40" : "text-gold/80"
-        }`}
-      />
-      <Moon
-        aria-hidden
-        className={`pointer-events-none mx-auto h-3.5 w-3.5 ${
-          isNight ? "text-[#cdd6ff]" : "text-[#9aa6dd]/40"
-        }`}
-      />
-      {/* Sliding knob — morphs sun→moon and translates across the track. */}
-      <span
-        aria-hidden
-        className={`absolute left-0.5 top-1/2 grid h-6 w-6 -translate-y-1/2 place-items-center rounded-full shadow-md transition-transform duration-200 ease-out motion-reduce:transition-none ${
-          isNight
-            ? "translate-x-[1.5rem] bg-gradient-to-br from-[#cdd6ff] to-[#8a93c8]"
-            : "translate-x-0 bg-gradient-to-br from-[#ffd76b] to-[#e8a13a]"
-        }`}
-      >
-        {isNight ? (
-          <Moon className="h-3.5 w-3.5 text-[#1c2039]" />
-        ) : (
-          <Sun className="h-3.5 w-3.5 text-white" />
-        )}
-      </span>
-    </button>
   );
 }

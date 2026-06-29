@@ -37,14 +37,14 @@ function CoinFace({
           <Image
             src={src}
             alt={alt}
-            width={224}
-            height={224}
+            width={288}
+            height={288}
             quality={90}
             placeholder="blur"
             priority={false}
             fetchPriority={eager ? "high" : "auto"}
             loading={eager ? "eager" : "lazy"}
-            sizes={eager ? "(max-width: 768px) 9rem, 14rem" : "(max-width: 768px) 6rem, 7rem"}
+            sizes={eager ? "(max-width: 768px) 11rem, 18rem" : "(max-width: 768px) 6rem, 7rem"}
             className={`object-cover ${imgClass}`}
           />
         </div>
@@ -126,10 +126,10 @@ export function ProfilePortrait({ variant = "hero" }: { variant?: Variant }) {
   }
 
   const imgClass = isHero
-    ? "h-36 w-36 md:h-56 md:w-56"
+    ? "h-44 w-44 md:h-72 md:w-72"
     : "h-24 w-24 md:h-28 md:w-28";
   const auraClass = isHero
-    ? "-inset-5 bg-accent/25 blur-2xl"
+    ? "-inset-6 bg-accent/25 blur-2xl"
     : "-inset-3 bg-accent/20 blur-xl";
 
   return (

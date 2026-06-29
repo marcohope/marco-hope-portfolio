@@ -21,6 +21,12 @@ import plantGraph from "@/assets/about/plantproj/plantproj-volt-vs-time-graph.pn
 import portfolioLanding from "@/assets/about/portfolio-landing-pic.png";
 import portfolioWork from "@/assets/about/portfolio-work-page.png";
 import portfolioContact from "@/assets/about/portfolio-contact-page.png";
+// Award / certificate scans (shown on-demand in the About lightbox).
+import certAiDesign from "@/assets/about/certificates/ai-powered-software-and-system-design-cert.png";
+import certPython from "@/assets/about/certificates/crash-course-on-python.png";
+import awardJuniorDesign from "@/assets/about/certificates/junior-design-oct-7-2023.png";
+import awardSeniorDesign from "@/assets/about/certificates/third-place-senior-design-oct-12-2024.png";
+import awardDebate from "@/assets/about/certificates/second-place-debate-setp-24-2023.png";
 
 export const profile = {
   name: "Marco Hope",
@@ -264,16 +270,36 @@ export const profile = {
     },
   ],
 
+  // `image` = a certificate/award scan shown on-demand in the About lightbox;
+  // null = no scan (rendered as a plain bullet).
   awards: [
-    "York Engineering Competition — 2nd Place, Junior Design (2023)",
-    "York Engineering Competition — 3rd Place, Senior Design (2024)",
-    "York Engineering Competition — 2nd Place, Debate (2023)",
+    {
+      label: "York Engineering Competition — 2nd Place, Junior Design (2023)",
+      image: awardJuniorDesign,
+    },
+    {
+      label: "York Engineering Competition — 3rd Place, Senior Design (2024)",
+      image: awardSeniorDesign,
+    },
+    {
+      label: "York Engineering Competition — 2nd Place, Debate (2023)",
+      image: awardDebate,
+    },
   ],
 
   certs: [
-    "AI-Powered Software & System Design — DeepLearning.AI (2026)",
-    "Crash Course on Python — Google (2026)",
-    "Standard First Aid with CPR-C — Lifesaving Society (2023)",
+    {
+      label: "AI-Powered Software & System Design — DeepLearning.AI (2026)",
+      image: certAiDesign,
+    },
+    {
+      label: "Crash Course on Python — Google (2026)",
+      image: certPython,
+    },
+    {
+      label: "Standard First Aid with CPR-C — Lifesaving Society (2023)",
+      image: null,
+    },
   ],
 
   // Full stack for the skills sections.

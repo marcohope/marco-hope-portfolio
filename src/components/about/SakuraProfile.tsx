@@ -1,14 +1,18 @@
+import Image from "next/image";
 import { ArrowRight, ChevronDown } from "lucide-react";
 import { CurtainLink } from "@/components/transition/CurtainLink";
 import { Eyebrow } from "@/components/ui/eyebrow";
 import { TechIcon } from "@/components/tech/TechIcon";
 import { ProfilePortrait } from "@/components/about/ProfilePortrait";
-import { HankoSeal } from "@/components/site/HankoSeal";
+import { HeroSpotlight } from "@/components/about/HeroSpotlight";
+import { CredentialList } from "@/components/about/CredentialList";
 import { Timeline } from "@/components/site/Timeline";
 import { Reveal, RevealGroup } from "@/components/site/reveal";
 import { ScrollScene } from "@/components/site/scroll-scene";
 import { ProjectsCarousel } from "@/components/about/ProjectsCarousel";
 import { profile } from "@/lib/profile";
+import marcoReading from "@/assets/about/marco-reading.jpg";
+import marcoRiverbank from "@/assets/about/marco-riverbank.jpg";
 
 // Teasers for the closing CTAs — derived from the project list so the home
 // hint can't drift from the actual /work catalogue.
@@ -26,28 +30,35 @@ const moreCount = profile.projects.length - 1;
 export function SakuraProfile() {
   return (
     <div className="relative z-10">
-      {/* ── Hero: the name + value-prop over the open sky, day or moonlit. The
-          portrait is demoted to a small photo beside the bio below, so the
-          name/value-prop is the hero's center of gravity. ───────────────── */}
+      {/* ── Hero: portrait over the open sky, day or moonlit ───────────── */}
       {/* Leave-only: the hero is visible on load; this just fades it away
           as the work section scrolls up to take its place. */}
       <ScrollScene enter={false}>
-      <section className="mx-auto flex min-h-[100svh] max-w-4xl flex-col items-center justify-center gap-6 px-6 py-28 text-center">
+      <section className="mx-auto flex min-h-[100svh] max-w-4xl flex-col items-center justify-center gap-6 px-6 py-20 text-center">
+        <HeroSpotlight />
+        <ProfilePortrait />
+
         <Reveal y={16} className="flex flex-col items-center gap-4">
           <Eyebrow className="hero-ink-soft justify-center">
             About · <span lang="ja">人物</span>
           </Eyebrow>
-          <h1 className="hero-ink font-display text-[clamp(2.8rem,11vw,6rem)] font-bold leading-[0.92] tracking-tight">
+          <h1
+            data-text="Marco Hope"
+            className="hero-glow hero-ink font-display text-[clamp(3.4rem,13vw,7.5rem)] font-bold leading-[0.92] tracking-tight"
+          >
             Marco Hope
           </h1>
-          <p className="hero-ink-soft max-w-2xl text-pretty font-display text-lg font-semibold text-foreground/90 md:text-2xl">
+          <p
+            data-text="Design engineer — I design and build AI-powered web products that feel as good as they look."
+            className="hero-glow hero-ink-soft max-w-3xl text-pretty font-display text-xl font-semibold text-foreground/90 md:text-3xl"
+          >
             Design engineer — I design and build AI-powered web products that
             feel as good as they look.
           </p>
-          <p className="hero-ink-soft text-foreground/75 md:text-lg">
+          <p className="hero-ink-soft text-lg text-foreground/75 md:text-xl">
             Computer Engineering @ York · Co-Founder @ Halix Solutions
           </p>
-          <p className="font-mono text-xs uppercase tracking-[0.24em] text-foreground/55">
+          <p className="font-mono text-sm uppercase tracking-[0.24em] text-foreground/55">
             {profile.location}
           </p>
         </Reveal>
@@ -79,7 +90,7 @@ export function SakuraProfile() {
               人
             </span>
             <h2 className="sr-only">Bio</h2>
-            <div className="relative grid items-start gap-8 md:grid-cols-[1.5fr_auto]">
+            <div className="relative grid items-center gap-8 md:grid-cols-[1.5fr_1fr]">
               <div className="space-y-5">
                 <Eyebrow>
                   Profile · <span lang="ja">紹介</span>
@@ -93,10 +104,30 @@ export function SakuraProfile() {
                   </p>
                 ))}
               </div>
-              {/* Demoted portrait — a small photo beside the bio, plus the seal. */}
-              <div className="flex items-center gap-6 md:flex-col md:items-end md:gap-7">
-                <ProfilePortrait variant="compact" />
-                <HankoSeal />
+              {/* Candid photos — a small stacked pair. Responsive by
+                  construction: a side column on desktop, stacking full-width
+                  under the bio on mobile. Each image is w-full / h-auto (no fixed
+                  dimensions), so it never overflows a small screen and holds its
+                  aspect ratio (no layout shift). */}
+              <div className="space-y-4">
+                <div className="overflow-hidden rounded-2xl border border-border/60 shadow-[0_24px_60px_-28px_rgb(0_0_0/0.5)]">
+                  <Image
+                    src={marcoReading}
+                    alt="Marco Hope sitting on a rocky riverbank at dusk, reading a magazine"
+                    placeholder="blur"
+                    sizes="(max-width: 768px) 100vw, 360px"
+                    className="h-auto w-full object-cover"
+                  />
+                </div>
+                <div className="overflow-hidden rounded-2xl border border-border/60 shadow-[0_24px_60px_-28px_rgb(0_0_0/0.5)]">
+                  <Image
+                    src={marcoRiverbank}
+                    alt="Marco Hope in a black hoodie at dusk by the rocky riverbank"
+                    placeholder="blur"
+                    sizes="(max-width: 768px) 100vw, 360px"
+                    className="h-auto w-full object-cover"
+                  />
+                </div>
               </div>
             </div>
           </section>
@@ -149,39 +180,13 @@ export function SakuraProfile() {
                 <Eyebrow>
                   Awards · <span lang="ja">受賞</span>
                 </Eyebrow>
-                <ul className="mt-6 space-y-3">
-                  {profile.awards.map((a) => (
-                    <li
-                      key={a}
-                      className="flex gap-3 text-sm text-foreground/75"
-                    >
-                      <span
-                        aria-hidden
-                        className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-gold"
-                      />
-                      {a}
-                    </li>
-                  ))}
-                </ul>
+                <CredentialList items={profile.awards} />
               </div>
               <div>
                 <Eyebrow>
                   Certifications · <span lang="ja">資格</span>
                 </Eyebrow>
-                <ul className="mt-6 space-y-3">
-                  {profile.certs.map((c) => (
-                    <li
-                      key={c}
-                      className="flex gap-3 text-sm text-foreground/75"
-                    >
-                      <span
-                        aria-hidden
-                        className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-accent"
-                      />
-                      {c}
-                    </li>
-                  ))}
-                </ul>
+                <CredentialList items={profile.certs} />
               </div>
             </div>
           </section>

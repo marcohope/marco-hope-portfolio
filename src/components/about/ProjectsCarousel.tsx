@@ -38,6 +38,13 @@ const STATUS: Record<string, { label: string; dot: string }> = {
 // hardware / IRL builds) live on /work.
 const HOME_CODES = new Set(["HX-001", "PF-003", "DL-002"]);
 const homeProjects = profile.projects.filter((p) => HOME_CODES.has(p.code));
+const totalCount = profile.projects.length;
+
+// Shared across the project cards and the trailing "view all" card so the
+// track's slot width can't drift between them. Widths are ~1.5× the original
+// gallery slot for larger, more immersive cards (mobile stays near full-width).
+const CARD_WIDTH =
+  "w-[82vw] shrink-0 snap-start sm:w-[84vw] md:w-[66vw] lg:w-[39rem]";
 
 function isExternal(href: string) {
   return /^https?:\/\//.test(href);
@@ -140,6 +147,55 @@ function ProjectCard({ project }: { project: Project }) {
 }
 
 /**
+ * Trailing "view all" card — the slider's end-cap that hands the operator off
+ * to the full /work catalogue. Styled to echo the project cards (gold mono pill,
+ * giant faint kanji, bottom-anchored CTA) so it reads as the natural finale of
+ * the track rather than a foreign element.
+ */
+function ViewAllCard() {
+  return (
+    <CurtainLink
+      href="/work"
+      className="washi washi-hover group relative flex h-full flex-col justify-between overflow-hidden p-4"
+    >
+      {/* Giant faint kanji — 全 (zen): "all / complete" — centered as the card's
+          focal motif, standing in for the project cards' cover image. */}
+      <span
+        aria-hidden
+        lang="ja"
+        className="pointer-events-none absolute -right-4 top-1/2 -translate-y-1/2 select-none font-display text-[13rem] leading-none text-foreground/[0.07]"
+      >
+        全
+      </span>
+
+      <div className="relative flex items-center justify-between px-1 pt-1">
+        <span className="rounded-md bg-background/55 px-2 py-1 font-mono text-[0.7rem] tracking-wider text-gold backdrop-blur-sm">
+          全 · {totalCount}
+        </span>
+        <ArrowUpRight className="size-4 text-foreground/45 transition-colors group-hover:text-accent" />
+      </div>
+
+      <div className="relative px-1 pb-1">
+        <p className="font-mono text-[0.7rem] uppercase tracking-[0.18em] text-foreground/55">
+          Catalogue
+        </p>
+        <h3 className="mt-1.5 font-display text-xl font-semibold leading-snug text-foreground md:text-2xl">
+          View all work
+        </h3>
+        <p className="mt-2 max-w-[24ch] text-sm text-foreground/70">
+          Every build in full — {totalCount} projects, from product UI to
+          hardware.
+        </p>
+        <span className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-foreground/90 transition-colors group-hover:text-accent">
+          Open the catalogue
+          <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" />
+        </span>
+      </div>
+    </CurtainLink>
+  );
+}
+
+/**
  * Featured-work showcase for the home page. On desktop (and when motion is
  * allowed) the section PINS and the card track slides horizontally, scrubbed to
  * scroll — so the user scrolls "through" the selected work, then the page
@@ -170,22 +226,41 @@ export function ProjectsCarousel() {
       mm.add(
         "(min-width: 768px) and (prefers-reduced-motion: no-preference)",
         () => {
-          const distance = () =>
-            Math.max(0, trackEl.scrollWidth - viewportEl.clientWidth);
+          // The slide ends with the LAST card (the "view all" end-cap) centered
+          // in the viewport, then the pin releases into natural scroll. distance()
+          // is the exact horizontal travel for that, and it also drives the pin
+          // length (end) and the progress bar, so all three stay in lock-step.
+          const distance = () => {
+            const cards = gsap.utils.toArray<HTMLElement>(
+              "[data-project-card]",
+              trackEl,
+            );
+            const first = cards[0];
+            const last = cards[cards.length - 1];
+            if (!first || !last) return 0;
+            const rel = last.offsetLeft - first.offsetLeft;
+            return Math.max(
+              0,
+              rel + last.offsetWidth / 2 - viewportEl.clientWidth / 2,
+            );
+          };
 
           // GSAP owns the horizontal position now, so clip the off-screen cards.
           gsap.set(viewportEl, { overflow: "hidden" });
 
           // One scrubbed timeline drives BOTH the track and the progress bar, so
-          // the indicator shares the cards' smoothed playhead (no per-frame set,
-          // no lead/lag) and both revert with the matchMedia context.
+          // the indicator shares the cards' playhead and both revert with the
+          // matchMedia context. scrub is tied DIRECTLY to scroll (no eased lag):
+          // a lagged scrub would let the pin release before the slide finished,
+          // so the last card never reached center and the tail of the animation
+          // played out over the next section.
           const tl = gsap.timeline({
             scrollTrigger: {
               trigger: sectionEl,
               start: "top top",
               end: () => "+=" + distance(),
               pin: true,
-              scrub: 1,
+              scrub: true,
               anticipatePin: 1,
               invalidateOnRefresh: true,
             },
@@ -228,7 +303,7 @@ export function ProjectsCarousel() {
   return (
     <section
       ref={section}
-      className="relative z-10 py-20 md:flex md:min-h-[100svh] md:flex-col md:justify-center md:py-0"
+      className="relative z-10 py-20"
     >
       {/* Heading — aligned to the page's max-w-5xl container. */}
       <div className="mx-auto w-full max-w-5xl px-6 md:px-8">
@@ -249,26 +324,31 @@ export function ProjectsCarousel() {
         </div>
       </div>
 
-      {/* The horizontal track. overflow-x-auto is the mobile / reduced-motion
+      {/* The horizontal track, constrained to the same max-w-5xl band as the
+          rest of the page so the section's side margins are consistent with the
+          content stack below. overflow-x-auto is the mobile / reduced-motion
           fallback; on desktop the effect sets overflow:hidden and drives x. The
-          first card's left edge is padded to line up with the heading above. */}
-      <div
-        ref={viewport}
-        className="mt-10 overflow-x-auto py-10 [scrollbar-width:none] md:mt-14"
-      >
+          first card sits flush with the band's left edge, lining up with the
+          heading above. */}
+      <div className="mx-auto w-full max-w-5xl px-6 md:px-8">
         <div
-          ref={track}
-          className="flex w-max snap-x snap-proximity gap-5 pr-6 pl-[max(1.5rem,calc((100%-64rem)/2+1.5rem))] md:gap-6 md:pr-10 md:pl-[max(2rem,calc((100%-64rem)/2+2rem))]"
+          ref={viewport}
+          className="mt-10 overflow-x-auto py-10 [scrollbar-width:none] md:mt-14"
         >
-          {homeProjects.map((project) => (
-            <div
-              key={project.code}
-              data-project-card
-              className="w-[78vw] shrink-0 snap-start sm:w-[56vw] md:w-[44vw] lg:w-[32vw]"
-            >
-              <ProjectCard project={project} />
+          <div
+            ref={track}
+            className="flex w-max snap-x snap-proximity gap-5 pr-6 md:gap-6 md:pr-10"
+          >
+            {homeProjects.map((project) => (
+              <div key={project.code} data-project-card className={CARD_WIDTH}>
+                <ProjectCard project={project} />
+              </div>
+            ))}
+            {/* End-cap: the slide settles with this centered, then releases. */}
+            <div data-project-card className={CARD_WIDTH}>
+              <ViewAllCard />
             </div>
-          ))}
+          </div>
         </div>
       </div>
 

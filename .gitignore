@@ -49,3 +49,4 @@ next-env.d.ts
 # agent / audit working artifacts (not part of the app)
 /.playwright-mcp/
 /audit-shots/
+.claude/
