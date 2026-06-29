@@ -46,13 +46,17 @@ export default function ContactPage() {
 
       <div className="relative z-10">
         {/* Hero — the Spline scene stands alone; just a cue to scroll for the
-            rest. The copy lives in the section below so it arrives on scroll. */}
-        <section className="relative flex min-h-[100svh] flex-col justify-end px-6 pb-24 md:px-10 md:pb-28">
+            rest. The copy lives in the section below so it arrives on scroll.
+            Desktop only: below `md` the liquid-glass scene can't sit centered,
+            so we drop the hero (and the scene, in ContactBackground) and lead
+            straight with the content. */}
+        <section className="relative hidden min-h-[100svh] flex-col justify-end px-6 pb-24 md:flex md:px-10 md:pb-28">
           <ScrollCue />
         </section>
 
-        {/* Content revealed on scroll — intro copy + channels + footer */}
-        <section className="mx-auto w-full max-w-7xl px-6 pb-20 md:px-10 md:pb-28">
+        {/* Content — revealed on scroll behind the hero on desktop; the whole
+            page on mobile, so it gets top padding there to clear the nav. */}
+        <section className="mx-auto w-full max-w-7xl px-6 pb-20 pt-28 md:px-10 md:pb-28 md:pt-0">
           <Reveal className="max-w-2xl [text-shadow:_0_2px_28px_rgb(0_0_0_/_0.55)]">
             <Eyebrow>Contact · Get in touch</Eyebrow>
             <h1 className="mt-6 font-display text-[clamp(3rem,12vw,6rem)] font-bold leading-[0.95] tracking-tight">

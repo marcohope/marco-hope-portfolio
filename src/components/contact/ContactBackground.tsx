@@ -18,25 +18,46 @@ const CONTACT_SCENE =
  * so its distortion bubble still follows the pointer even with the form on top.
  * The hero shows the scene crisp and scrim-free; as the user scrolls into the
  * content section the scene frosts over (scrubbed blur + dim) so the copy reads
- * against it. Reduced-motion gets the poster with no scroll work.
+ * against it. Reduced-motion gets the poster with no scroll work. Below `md`
+ * the scene can't sit centered, so the page is content-only and the scene
+ * doesn't mount at all (no heavy WebGL load on phones).
  */
 export function ContactBackground() {
-  const [mm, setMm] = useState({ ready: false, reduced: false });
+  const [mm, setMm] = useState({ ready: false, reduced: false, mobile: false });
   const scene = useRef<HTMLDivElement>(null);
   const dim = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const q = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const sync = () => setMm({ ready: true, reduced: q.matches });
+    const motion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    // `md` breakpoint (768px). Below it the page goes content-only.
+    const phone = window.matchMedia("(max-width: 767px)");
+    const sync = () =>
+      setMm({ ready: true, reduced: motion.matches, mobile: phone.matches });
     sync();
-    q.addEventListener("change", sync);
-    return () => q.removeEventListener("change", sync);
+    motion.addEventListener("change", sync);
+    phone.addEventListener("change", sync);
+    return () => {
+      motion.removeEventListener("change", sync);
+      phone.removeEventListener("change", sync);
+    };
   }, []);
+
+  // On mobile there's no scene to stream in, so tell the loading screen we're
+  // "ready" — otherwise it waits on the Spline's load-complete and only clears
+  // at its 8s fallback. rAF so the loader has mounted its listener; harmless if
+  // it already finished.
+  useEffect(() => {
+    if (!mm.ready || !mm.mobile) return;
+    const id = requestAnimationFrame(() =>
+      window.dispatchEvent(new Event("hero:scene-ready")),
+    );
+    return () => cancelAnimationFrame(id);
+  }, [mm.ready, mm.mobile]);
 
   // Frost the scene as the hero scrolls away — crisp at the top, fully blurred
   // and dimmed by the time the content section is in view (one viewport later).
   useEffect(() => {
-    if (!mm.ready || mm.reduced) return;
+    if (!mm.ready || mm.reduced || mm.mobile) return;
     const ctx = gsap.context(() => {
       const scrub = {
         scrollTrigger: {
@@ -55,13 +76,13 @@ export function ContactBackground() {
       gsap.fromTo(dim.current, { autoAlpha: 0 }, { autoAlpha: 1, ...scrub });
     });
     return () => ctx.revert();
-  }, [mm.ready, mm.reduced]);
+  }, [mm.ready, mm.reduced, mm.mobile]);
 
   return (
     <div className="fixed inset-0 z-0" aria-hidden>
       {/* The scene itself — crisp in the hero, blurred on scroll via the tween. */}
       <div ref={scene} className="absolute inset-0 will-change-[filter]">
-        {mm.ready && (
+        {mm.ready && !mm.mobile && (
           <HeroSpline url={CONTACT_SCENE} reducedMotion={mm.reduced} />
         )}
       </div>
