@@ -1,0 +1,50 @@
+name: CI
+
+# Quality gate: type-check, lint, build, Lighthouse (>=95 on all four
+# categories), and the craft smoke tests. Dormant until this repo has a GitHub
+# remote — it runs automatically on the first push / PR after that.
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Type-check
+        run: npm run typecheck
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Build
+        run: npm run build
+
+      - name: Lighthouse CI (gate >=95)
+        run: npx lhci autorun
+
+      - name: Install Playwright browser
+        run: npx playwright install --with-deps chromium
+
+      - name: Craft smoke tests
+        run: npx playwright test
+
+      - name: Upload Playwright report
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 7
