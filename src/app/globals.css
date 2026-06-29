@@ -1,26 +1,393 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+/*
+  Marco Hope — portfolio design tokens (Tailwind v4, CSS-first).
+  Theme: dark, with white + electric-blue accents (matched to the Spline scene).
+*/
 
+/* next/font vars MUST be bridged with `@theme inline` so the utility inlines
+   the runtime var() set on <html> (a plain @theme can fail to resolve it). */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-space-grotesk), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-archivo), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-instrument-serif), Georgia, ui-serif, serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@theme {
+  /* Surfaces (near-black, subtly cool) */
+  --color-background: #08080a;
+  --color-surface: #101014;
+  --color-elevated: #17171d;
+
+  /* Text */
+  --color-foreground: #f6f6f8;
+  --color-muted: #a2a2ad;
+  --color-faint: #6a6a76;
+
+  /* Lines */
+  --color-border: #23232b;
+  --color-border-strong: #34343f;
+
+  /* Electric-blue accent scale (matched to the Spline scene) */
+  --color-accent: #2f80ff;
+  --color-accent-hover: #5a9cff;
+  --color-accent-foreground: #ffffff;
+
+  /* Gold "ink" — a per-theme constant (overridden lighter on dark themes,
+     darker on light) so `text-gold`/`bg-gold` stay legible on any ground. */
+  --color-gold: #c9a24b;
+
+  /* shadcn/ui token bridge (mapped to the portfolio palette) */
+  --color-primary: #2f80ff;
+  --color-primary-foreground: #ffffff;
+  --color-secondary: #17171d;
+  --color-secondary-foreground: #f6f6f8;
+  --color-destructive: #ff2e3f;
+  --color-destructive-foreground: #ffffff;
+  --color-card: #101014;
+  --color-card-foreground: #f6f6f8;
+  --color-popover: #101014;
+  --color-popover-foreground: #f6f6f8;
+  --color-muted-foreground: #a2a2ad;
+  --color-input: #23232b;
+  --color-ring: #2f80ff;
+
+  /* Motion */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+:root {
+  color-scheme: dark;
+}
+
+@layer base {
+  html {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    /* Reserve the scrollbar gutter so the intro's scroll-lock causes no shift. */
+    scrollbar-gutter: stable;
+  }
+
+  body {
+    font-family: var(--font-space-grotesk), ui-sans-serif, system-ui, sans-serif;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: var(--font-archivo), ui-sans-serif, system-ui, sans-serif;
+  }
+
+  ::selection {
+    background: var(--color-accent);
+    color: var(--color-accent-foreground);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+    border-radius: 3px;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer components {
+  /* Spline placeholder / reduced-motion poster — pure CSS, no asset needed */
+  .hero-poster {
+    background:
+      radial-gradient(55% 55% at 68% 42%, rgb(47 128 255 / 0.2), transparent 70%),
+      radial-gradient(90% 90% at 50% 50%, #15151b 0%, #08080a 78%);
+  }
+
+  /* --- Per-page themes (cohesive system: only the accent surface + page bg
+     change; fonts, foreground, spacing, primitives stay constant). Each block
+     MUST override the full accent surface incl. --color-primary/--color-ring,
+     or shadcn buttons + focus rings stay home-blue. --color-background is
+     overridden so bg-background utilities pick up the per-page ground. */
+  .theme-work {
+    --color-background: #070810;
+    --color-surface: #0d0e15;
+    --color-elevated: #14161f;
+    --color-accent: #6ea8ff;
+    --color-accent-hover: #9cc4ff;
+    --color-accent-foreground: #06080f;
+    --color-primary: #6ea8ff;
+    --color-primary-foreground: #06080f;
+    --color-ring: #6ea8ff;
+    --color-card: #0d0e15;
+    --color-border: #1c2030;
+  }
+  /* /about is the one route with a day↔night toggle (the sakura day & moonlit
+     night watercolors). Two full themes — light + dark — share the same accent
+     language (sakura rose + gold ink) inverted across lightness. */
+  .theme-about-day {
+    color-scheme: light;
+    --color-background: #f2e7dc;
+    --color-surface: #fbf4ec;
+    --color-elevated: #ffffff;
+    --color-foreground: #2f2833;
+    --color-muted: #6c6068;
+    --color-faint: #9a8d92;
+    --color-border: #e4d6c8;
+    --color-border-strong: #d2c0af;
+    --color-accent: #b03d63;
+    --color-accent-hover: #8f2f50;
+    --color-accent-foreground: #ffffff;
+    --color-gold: #876a1d;
+    --color-primary: #b03d63;
+    --color-primary-foreground: #ffffff;
+    --color-ring: #b03d63;
+    --color-card: #fbf4ec;
+    --color-card-foreground: #2f2833;
+    --color-muted-foreground: #6c6068;
+  }
+  .theme-about-night {
+    color-scheme: dark;
+    --color-background: #0c0e1e;
+    --color-surface: #14172b;
+    --color-elevated: #1c2039;
+    --color-foreground: #eef0fb;
+    --color-muted: #a8aed0;
+    --color-faint: #777ea3;
+    --color-border: #282d4a;
+    --color-border-strong: #3a4068;
+    --color-accent: #f48fb1;
+    --color-accent-hover: #ffa9c4;
+    --color-accent-foreground: #1c0f16;
+    --color-gold: #d8b15a;
+    --color-primary: #f48fb1;
+    --color-primary-foreground: #1c0f16;
+    --color-ring: #f48fb1;
+    --color-card: #14172b;
+    --color-card-foreground: #eef0fb;
+    --color-muted-foreground: #a8aed0;
+  }
+  /* Contact is a monochrome liquid-glass scheme: near-black ground, white ink,
+     white accent (CTAs invert to black text). No colour — the Spline scene
+     supplies all the hue. */
+  .theme-contact {
+    --color-background: #07070a;
+    --color-surface: #101015;
+    --color-elevated: #18181f;
+    --color-accent: #ffffff;
+    --color-accent-hover: #e6e6ea;
+    --color-accent-foreground: #07070a;
+    --color-primary: #ffffff;
+    --color-primary-foreground: #07070a;
+    --color-ring: #ffffff;
+    --color-card: #101015;
+    --color-border: #2a2a33;
+  }
+  /* Craft (the interactive "lab") is a near-black violet scheme — distinct from
+     work's blue and contact's monochrome so the section reads as its own place.
+     Electric violet accent on a faint-purple ground. */
+  .theme-craft {
+    --color-background: #08070d;
+    --color-surface: #110f1a;
+    --color-elevated: #181522;
+    --color-foreground: #f3f1fa;
+    --color-muted: #a6a0bd;
+    --color-faint: #6c6685;
+    --color-accent: #a78bfa;
+    --color-accent-hover: #c4b5fd;
+    --color-accent-foreground: #0a0813;
+    --color-primary: #a78bfa;
+    --color-primary-foreground: #0a0813;
+    --color-ring: #a78bfa;
+    --color-card: #110f1a;
+    --color-border: #262134;
+    --color-border-strong: #3a3350;
+  }
+
+}
+
+/* Frosted "liquid glass" panel (contact theme). Unlayered (kept out of @layer
+   components) so its backdrop-filter isn't outranked by Tailwind's layers. */
+.glass {
+  background: linear-gradient(
+    135deg,
+    rgb(255 255 255 / 0.05),
+    rgb(255 255 255 / 0.015)
+  );
+  /* Lighter blur + lower fill so the Spline scene reads clearly through the panel. */
+  -webkit-backdrop-filter: blur(9px) saturate(150%);
+  backdrop-filter: blur(9px) saturate(150%);
+  border: 1px solid rgb(255 255 255 / 0.16);
+  box-shadow:
+    0 12px 40px -18px rgb(0 0 0 / 0.5),
+    inset 0 1px 0 0 rgb(255 255 255 / 0.22);
+}
+
+/* Pointer-tracked specular sheen for liquid-glass panels (see GlassCard.tsx). */
+.glass-sheen::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(
+    240px circle at var(--mx, 50%) var(--my, 0%),
+    rgb(255 255 255 / 0.14),
+    transparent 60%
+  );
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+/* Hover-only: never trigger the sheen on touch (where :hover sticks after a tap). */
+@media (hover: hover) and (pointer: fine) {
+  .glass-sheen:hover::before {
+    opacity: 1;
+  }
+}
+
+/* "Washi" paper panels for /about — translucent frosted cards that float over
+   the watercolor scene. Unlayered (like .glass) so backdrop-filter survives, and
+   so the day/night background/border swap below isn't outranked. Hover animates
+   only box-shadow + transform (never border-color — an unlayered border shorthand
+   would outrank Tailwind's hover:border-* utilities). */
+.washi {
+  position: relative;
+  -webkit-backdrop-filter: blur(16px) saturate(125%);
+  backdrop-filter: blur(16px) saturate(125%);
+  border-radius: 1rem;
+  transition:
+    box-shadow 0.45s var(--ease-out-quart),
+    transform 0.45s var(--ease-out-quart);
+}
+.theme-about-day .washi {
+  background: linear-gradient(
+    135deg,
+    rgb(255 251 246 / 0.82),
+    rgb(252 244 235 / 0.64)
+  );
+  border: 1px solid rgb(120 84 70 / 0.16);
+  box-shadow: 0 24px 60px -32px rgb(78 42 30 / 0.5);
+}
+.theme-about-night .washi {
+  background: linear-gradient(
+    135deg,
+    rgb(28 32 57 / 0.72),
+    rgb(16 19 36 / 0.55)
+  );
+  border: 1px solid rgb(180 192 235 / 0.14);
+  box-shadow:
+    0 24px 60px -28px rgb(0 0 0 / 0.7),
+    inset 0 1px 0 0 rgb(255 255 255 / 0.06);
+}
+/* Lift on hover only — gated so the transform never sticks on a touch tap.
+   (Tailwind v4's `hover:` utilities are already media-gated; these hand-rolled
+   :hover rules are not, so they're wrapped explicitly.) */
+@media (hover: hover) and (pointer: fine) {
+  .washi-hover:hover {
+    transform: translateY(-3px);
+  }
+  .theme-about-day .washi-hover:hover {
+    box-shadow: 0 30px 70px -30px rgb(78 42 30 / 0.58);
+  }
+  .theme-about-night .washi-hover:hover {
+    box-shadow:
+      0 30px 70px -26px rgb(0 0 0 / 0.78),
+      inset 0 1px 0 0 rgb(255 255 255 / 0.08);
+  }
+}
+
+/* Falling cherry petals (CherryPetals.tsx drives transform + opacity with GSAP).
+   Color + glow come from the theme (not React inline styles) so a day↔night
+   re-render never resets the GSAP-owned transform/opacity. Base opacity:0 means
+   reduced-motion users (GSAP no-ops) simply see no petals. */
+.petal-field {
+  perspective: 800px;
+}
+.theme-about-night .petal-field {
+  filter: drop-shadow(0 0 5px rgb(245 200 220 / 0.4));
+}
+.petal {
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+  will-change: transform, opacity;
+  pointer-events: none;
+}
+.theme-about-day .petal {
+  color: #ee87a8;
+}
+.theme-about-day .petal:nth-child(3n + 1) {
+  color: #f4a6c0;
+}
+.theme-about-day .petal:nth-child(3n + 2) {
+  color: #e2769a;
+}
+.theme-about-night .petal {
+  color: #f3c2d4;
+}
+.theme-about-night .petal:nth-child(3n + 1) {
+  color: #e6b3ca;
+}
+.theme-about-night .petal:nth-child(3n + 2) {
+  color: #d9c7ea;
+}
+
+/* Hero text legibility over the busy watercolor — a theme-aware halo instead of
+   a flat scrim (the user wants the scene visible). */
+.theme-about-day .hero-ink {
+  text-shadow:
+    0 1px 2px rgb(255 252 247 / 0.6),
+    0 2px 24px rgb(255 250 243 / 0.6);
+}
+.theme-about-night .hero-ink {
+  text-shadow:
+    0 1px 3px rgb(6 8 20 / 0.65),
+    0 2px 28px rgb(6 8 20 / 0.55);
+}
+.theme-about-day .hero-ink-soft {
+  text-shadow: 0 1px 14px rgb(255 250 243 / 0.75);
+}
+.theme-about-night .hero-ink-soft {
+  text-shadow: 0 1px 16px rgb(6 8 20 / 0.6);
+}
+
+/* Journey timeline (Timeline.tsx) lights a seal node as its scroll-drawn line
+   reaches it. The `.is-active` state is toggled from JS; the colour comes from
+   the theme accent token so the day↔night palette swap carries through. */
+.timeline-dot.is-active {
+  background-color: var(--color-accent);
+  transform: scale(1.2);
+  box-shadow: 0 0 16px 1px color-mix(in srgb, var(--color-accent) 50%, transparent);
+}
+
+/* GSAP motion is gated in JS via gsap.matchMedia; this covers CSS transitions. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    transition-delay: 0ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Solid fallbacks when the user asks the OS to reduce transparency: drop the
+   backdrop blur (so nothing shows through) and swap the translucent fills for
+   opaque equivalents (approximating each surface's top gradient stop). The
+   GlassNav bars handle this in JS — their fills are computed per tone. */
+@media (prefers-reduced-transparency: reduce) {
+  .glass {
+    background: rgb(17 23 38);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+  .washi {
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+  .theme-about-day .washi {
+    background: rgb(252 247 240);
+  }
+  .theme-about-night .washi {
+    background: rgb(22 26 47);
+  }
 }
