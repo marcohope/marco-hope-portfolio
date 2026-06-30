@@ -198,6 +198,159 @@
     --color-border: #262134;
     --color-border-strong: #3a3350;
   }
+  /* Blogs is a "coming soon" cloudscape — the one daytime-sky scheme: deep
+     sky-slate ink on a pale-blue ground, with a sky-blue accent. Light like the
+     about-day theme, but its own palette so the section reads as its own place. */
+  .theme-blogs {
+    color-scheme: light;
+    --color-background: #d8eafb;
+    --color-surface: #eaf3fd;
+    --color-elevated: #ffffff;
+    --color-foreground: #15324d;
+    --color-muted: #436189;
+    --color-faint: #7d97b8;
+    --color-border: #c2d8ef;
+    --color-border-strong: #a9c6e6;
+    --color-accent: #2f6fb0;
+    --color-accent-hover: #245a93;
+    --color-accent-foreground: #ffffff;
+    --color-primary: #2f6fb0;
+    --color-primary-foreground: #ffffff;
+    --color-ring: #2f6fb0;
+    --color-card: #eaf3fd;
+    --color-card-foreground: #15324d;
+    --color-muted-foreground: #436189;
+  }
+
+  /* ── Cosmic parallax hero (parallax-cosmic-background.tsx) ──────────────────
+     A deep-space backdrop: three drifting starfield layers, a planet rising at
+     the horizon with an atmospheric glow tinted to the page accent, and a
+     centered wordmark. Drift + the title reveal are GSAP-driven (and skipped for
+     reduced motion); these are the static styles. Kept in @layer components so a
+     consumer's utility classes (e.g. `absolute inset-0`) still win on the
+     container. */
+  .cosmic-parallax-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    isolation: isolate;
+    background: radial-gradient(
+      130% 100% at 50% 6%,
+      color-mix(in srgb, var(--color-accent) 12%, #0a0913) 0%,
+      #09080f 42%,
+      #060509 100%
+    );
+  }
+
+  /* Each star layer: an oversized tiled child clipped to the container, then
+     translated (GPU-composited) by GSAP for seamless parallax drift. */
+  .cosmic-stars-clip {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+  }
+  .cosmic-stars {
+    position: absolute;
+    inset-inline: 0;
+    top: 0;
+    will-change: transform;
+  }
+
+  /* The planet — a large sphere whose top cap rises from the bottom; only the
+     curved horizon shows. Inner top light + outer halo read as atmosphere. */
+  .cosmic-earth {
+    position: absolute;
+    left: 50%;
+    top: 86%;
+    width: 240%;
+    aspect-ratio: 1 / 1;
+    transform: translateX(-50%);
+    border-radius: 50%;
+    z-index: 1;
+    background: radial-gradient(
+      60% 60% at 50% 6%,
+      color-mix(in srgb, var(--color-accent) 16%, #0c0a1a) 0%,
+      rgb(8 7 17 / 0.5) 36%,
+      #050409 64%
+    );
+    box-shadow:
+      inset 0 7px 55px -8px
+        color-mix(in srgb, var(--color-accent) 50%, transparent),
+      0 -8px 60px -4px color-mix(in srgb, var(--color-accent) 28%, transparent);
+  }
+
+  /* Atmospheric glow band sitting just above the planet's horizon. */
+  .cosmic-glow {
+    position: absolute;
+    left: 50%;
+    top: 86%;
+    width: 150%;
+    height: 42%;
+    transform: translate(-50%, -64%);
+    z-index: 1;
+    pointer-events: none;
+    background: radial-gradient(
+      ellipse 50% 62% at 50% 100%,
+      color-mix(in srgb, var(--color-accent) 55%, transparent) 0%,
+      color-mix(in srgb, var(--color-accent) 20%, transparent) 42%,
+      transparent 72%
+    );
+    filter: blur(26px);
+  }
+
+  /* Centered wordmark overlay (lifted above the horizon, clear of the nav). */
+  .cosmic-text {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(0.85rem, 2vw, 1.6rem);
+    padding: 5rem 1.5rem 15vh;
+    text-align: center;
+  }
+  .cosmic-title {
+    margin: 0;
+    font-family: var(--font-archivo), ui-sans-serif, system-ui, sans-serif;
+    font-weight: 800;
+    text-transform: uppercase;
+    line-height: 0.92;
+    letter-spacing: 0.1em;
+    /* cancel the trailing letter-spacing so the wordmark stays optically
+       centered (mirrors the per-word trick on .cosmic-subtitle). */
+    padding-left: 0.1em;
+    font-size: clamp(3.25rem, 15vw, 9.5rem);
+    color: #fff;
+    text-shadow:
+      0 2px 50px color-mix(in srgb, var(--color-accent) 40%, transparent),
+      0 0 90px color-mix(in srgb, var(--color-accent) 22%, transparent);
+  }
+  .cosmic-subtitle {
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6em;
+    font-family: var(--font-space-grotesk), ui-sans-serif, system-ui, sans-serif;
+    font-size: clamp(0.68rem, 1.5vw, 0.95rem);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.42em;
+    color: color-mix(in srgb, var(--color-foreground) 78%, transparent);
+  }
+  .cosmic-subtitle [data-part] {
+    /* nudge each word right by its own tracking so the row stays centered */
+    padding-left: 0.42em;
+    white-space: nowrap;
+  }
+  .cosmic-dot {
+    color: var(--color-accent);
+    letter-spacing: 0;
+  }
 
 }
 
@@ -216,28 +369,6 @@
   box-shadow:
     0 12px 40px -18px rgb(0 0 0 / 0.5),
     inset 0 1px 0 0 rgb(255 255 255 / 0.22);
-}
-
-/* Pointer-tracked specular sheen for liquid-glass panels (see GlassCard.tsx). */
-.glass-sheen::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  background: radial-gradient(
-    240px circle at var(--mx, 50%) var(--my, 0%),
-    rgb(255 255 255 / 0.14),
-    transparent 60%
-  );
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  pointer-events: none;
-}
-/* Hover-only: never trigger the sheen on touch (where :hover sticks after a tap). */
-@media (hover: hover) and (pointer: fine) {
-  .glass-sheen:hover::before {
-    opacity: 1;
-  }
 }
 
 /* "Washi" paper panels for /about — translucent frosted cards that float over
@@ -289,6 +420,30 @@
       0 30px 70px -26px rgb(0 0 0 / 0.78),
       inset 0 1px 0 0 rgb(255 255 255 / 0.08);
   }
+}
+
+/* ToolLogo's React mark ships light-bg + dark-bg variants. The about *day*
+   panel is the only light ground, so it shows the light-bg variant; every other
+   surface — the about night panel, the dark /work catalogue, any page with no
+   about theme — shows the dark-bg one. The off variant is pulled from layout so
+   the two never stack (e.g. on /work, which has no .theme-about-* ancestor). */
+[data-theme-variant="day"] {
+  display: none;
+}
+.theme-about-day [data-theme-variant="day"] {
+  display: revert;
+}
+.theme-about-day [data-theme-variant="night"] {
+  display: none;
+}
+
+/* Colour logos can lose their darkest parts (GSAP's wordmark, Electron's ring)
+   against a dark ground. A whisper-thin light halo restores the edge without
+   washing out the brighter marks — applied on every dark surface they sit on:
+   the about night panel and the /work catalogue. */
+.theme-about-night .tool-logo,
+.theme-work .tool-logo {
+  filter: drop-shadow(0 0 1.5px rgb(255 255 255 / 0.45));
 }
 
 /* Falling cherry petals (CherryPetals.tsx drives transform + opacity with GSAP).
@@ -382,13 +537,65 @@
   opacity: 1;
 }
 
-/* Journey timeline (Timeline.tsx) lights a seal node as its scroll-drawn line
-   reaches it. The `.is-active` state is toggled from JS; the colour comes from
-   the theme accent token so the day↔night palette swap carries through. */
-.timeline-dot.is-active {
-  background-color: var(--color-accent);
-  transform: scale(1.2);
-  box-shadow: 0 0 16px 1px color-mix(in srgb, var(--color-accent) 50%, transparent);
+/* Journey branch (JourneyBranch.tsx) — a gold sumi-e bough that inks down the
+   panel as you scroll, blossoms unfurling at each role over a crimson hanko
+   seal. Colour is theme-token only, so the day↔night swap carries through; the
+   blossom petals reuse the ambient sakura tints (matched to CherryPetals). */
+.journey-bough path {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.journey-bough .bough-track {
+  stroke: var(--color-gold);
+  stroke-width: 2;
+  opacity: 0.16;
+}
+.journey-bough .bough-fill {
+  stroke: var(--color-gold);
+  stroke-width: 2.5;
+  opacity: 0.8;
+}
+.blossom {
+  overflow: visible;
+}
+.blossom-petal {
+  fill: #ee87a8;
+}
+.theme-about-night .blossom-petal {
+  fill: #f3c2d4;
+}
+.blossom-glow {
+  fill: var(--color-accent);
+  opacity: 0.28;
+}
+.blossom-pistil {
+  fill: var(--color-accent);
+}
+.theme-about-night .blossom {
+  filter: drop-shadow(0 0 5px rgb(245 200 220 / 0.35));
+}
+
+/* Soft glow behind the hero portrait (ProfilePortrait.tsx). A radial gradient
+   (not a blurred solid circle) that fades to transparent before the box corners,
+   so it always reads as a glow and never a square. Night = a confident pink
+   halo on the dark ground; day softens it, since the accent is a saturated
+   crimson that would otherwise read as a harsh patch on the light paper. */
+.portrait-aura {
+  border-radius: 9999px;
+  background: radial-gradient(
+    closest-side,
+    color-mix(in srgb, var(--color-accent) 30%, transparent),
+    transparent
+  );
+  filter: blur(16px);
+}
+.theme-about-day .portrait-aura {
+  background: radial-gradient(
+    closest-side,
+    color-mix(in srgb, var(--color-accent) 15%, transparent),
+    transparent
+  );
 }
 
 /* GSAP motion is gated in JS via gsap.matchMedia; this covers CSS transitions. */

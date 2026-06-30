@@ -14,7 +14,7 @@ export type FlipLinkItem = {
  * place, each letter offset by a small delay for a cascading flip.
  *
  * Pure CSS transitions — no JS, no Framer Motion — to match this project's
- * GSAP-first, dependency-light setup (see menu-vertical.tsx for the same call).
+ * GSAP-first, dependency-light setup.
  * Reduced-motion is handled globally in globals.css: the reduced-motion reset
  * zeroes both transition-duration and transition-delay, so the flip resolves as
  * an instant, un-staggered swap instead of a cascade.

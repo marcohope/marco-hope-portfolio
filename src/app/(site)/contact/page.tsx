@@ -4,7 +4,7 @@ import { ArrowRight } from "lucide-react";
 import { Eyebrow } from "@/components/ui/eyebrow";
 import { ContactBackground } from "@/components/contact/ContactBackground";
 import { SceneLoader } from "@/components/intro/SceneLoader";
-import { ScrollCue } from "@/components/contact/ScrollCue";
+import { ScrollCue } from "@/components/site/ScrollCue";
 import { GlassNav } from "@/components/site/GlassNav";
 import { Reveal } from "@/components/site/reveal";
 import { FlipLinks, type FlipLinkItem } from "@/components/ui/flip-links";

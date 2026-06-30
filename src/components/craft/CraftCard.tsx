@@ -1,22 +1,26 @@
 import { ChevronDown } from "lucide-react";
+import { CurtainLink } from "@/components/transition/CurtainLink";
 
 /**
  * Frame for a single Craft (Lab) experiment: a titled card with a live demo
  * stage, the techniques it shows off as tags, and a collapsible "build
- * breakdown" (native <details> — no JS, keyboard-friendly). Each card is
- * self-contained so any one can later be lifted out and open-sourced.
+ * breakdown" (native <details> — no JS, keyboard-friendly). When `href` is set
+ * the title links to the component's detail page (live demo + source). Each card
+ * is self-contained so any one can be lifted out and open-sourced.
  */
 export function CraftCard({
   title,
   summary,
   tags,
   breakdown,
+  href,
   children,
 }: {
   title: string;
   summary: string;
-  tags: string[];
-  breakdown: string[];
+  tags: readonly string[];
+  breakdown: readonly string[];
+  href?: string;
   children: React.ReactNode;
 }) {
   return (
@@ -29,7 +33,16 @@ export function CraftCard({
       <div className="flex flex-1 flex-col gap-4 p-6">
         <div>
           <h3 className="font-display text-xl font-bold tracking-tight">
-            {title}
+            {href ? (
+              <CurtainLink
+                href={href}
+                className="rounded-sm outline-none transition-colors hover:text-accent focus-visible:text-accent focus-visible:ring-2 focus-visible:ring-accent"
+              >
+                {title}
+              </CurtainLink>
+            ) : (
+              title
+            )}
           </h3>
           <p className="mt-1.5 text-sm leading-relaxed text-foreground/65">
             {summary}
@@ -63,6 +76,14 @@ export function CraftCard({
               </li>
             ))}
           </ul>
+          {href && (
+            <CurtainLink
+              href={href}
+              className="mt-4 inline-flex items-center gap-1.5 text-sm font-medium text-accent outline-none transition-opacity hover:opacity-80 focus-visible:ring-2 focus-visible:ring-accent"
+            >
+              Full build &amp; source →
+            </CurtainLink>
+          )}
         </details>
       </div>
     </article>

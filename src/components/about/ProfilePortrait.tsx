@@ -128,19 +128,17 @@ export function ProfilePortrait({ variant = "hero" }: { variant?: Variant }) {
   const imgClass = isHero
     ? "h-44 w-44 md:h-72 md:w-72"
     : "h-24 w-24 md:h-28 md:w-28";
-  const auraClass = isHero
-    ? "-inset-6 bg-accent/25 blur-2xl"
-    : "-inset-3 bg-accent/20 blur-xl";
+  // A radial glow (fades to transparent before the box corners, so it can never
+  // read as a square) — softer in day mode, where the accent is a saturated
+  // crimson on light paper. See `.portrait-aura` in globals.css.
+  const auraClass = isHero ? "-inset-6 portrait-aura" : "-inset-3 portrait-aura";
 
   return (
     // Perspective lives on the wrapper so the inner coin reads as 3D. The mount
     // + float tweens transform this same element without flattening the flip.
     <div ref={ref} className="relative w-fit [perspective:1000px]">
       {/* Aura */}
-      <span
-        aria-hidden
-        className={`absolute rounded-full ${auraClass}`}
-      />
+      <span aria-hidden className={`absolute ${auraClass}`} />
 
       {/* Coin: two faces sharing one 3D box. Click / Enter / Space to flip. */}
       <div

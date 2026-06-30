@@ -4,6 +4,12 @@ A motion-led personal portfolio for **Marco Hope** (Design Engineer / technical 
 
 🔗 **Live:** [marcohope.com](https://marcohope.com)
 
+### Highlights
+
+- **[Motion skill file](skills/motion/SKILL.md)** — my interface-motion taste written down as a reusable rulebook (the 300ms ceiling, spring easing, reduced-motion, 60fps) that I hand to AI coding agents. Every interaction in the Craft lab is that rulebook applied.
+- **[Craft lab](https://marcohope.com/craft)** — six self-contained micro-interactions, each with a live demo, a build breakdown, accessibility notes, and its real source (copy-in).
+- **[Blog](https://marcohope.com/blogs)** — short essays on the reasoning behind the work; one embeds its own live demo inline.
+
 ---
 
 ## Stack
@@ -17,6 +23,7 @@ A motion-led personal portfolio for **Marco Hope** (Design Engineer / technical 
 | 3D | [Spline](https://spline.design) scenes as page heroes (work, contact) |
 | Fonts | Archivo (display), Space Grotesk (sans), Instrument Serif (wordmark) via `next/font` |
 | UI primitives | A small set of shadcn/ui-style components (carousel, slot) |
+| Content | MDX (`@next/mdx`) for the blog, with a typed post registry |
 | Tooling | ESLint 9, Playwright (e2e), Lighthouse CI |
 | Deploy | Vercel |
 
@@ -51,13 +58,21 @@ src/
 │  ├─ sitemap.ts robots.ts  # file-convention SEO
 │  ├─ opengraph-image.tsx … # generated OG / Twitter / icon images
 │  └─ (site)/               # route group for the inner pages
-│     ├─ work/  craft/  contact/
+│     ├─ work/  contact/
+│     ├─ craft/  craft/[slug]/   # component library: gallery + detail pages
+│     └─ blogs/  blogs/[slug]/   # blog index + MDX posts
 ├─ components/              # feature-grouped (about, work, craft, site, contact, ui, …)
+├─ content/blogs/           # MDX essays (one file per post)
+├─ mdx-components.tsx       # global MDX element styling
 ├─ lib/
-│  ├─ profile.ts            # ⭐ single source of truth for all portfolio content
+│  ├─ profile.ts            # ⭐ single source of truth for projects, bio, awards
+│  ├─ craft.ts              # craft-lab registry (drives /craft + /craft/[slug])
+│  ├─ blogs.ts              # blog post registry (drives /blogs + /blogs/[slug])
 │  └─ site.ts               # SEO origin + brand strings
 ├─ assets/                  # statically-imported imagery (next/image blur + sizing)
 └─ types/
+
+skills/motion/SKILL.md      # the motion rulebook — a portable, agent-ready skill file
 ```
 
 ### Key ideas
@@ -66,6 +81,8 @@ src/
 - **Per-page theme system.** A single token set (`globals.css`) is re-skinned per route — `theme-work` (blue), `theme-craft` (violet), `theme-contact` (monochrome glass), and the `theme-about-day` / `theme-about-night` sakura pair with a day↔night toggle. Only the accent surface and ground change; type, spacing, and primitives stay constant.
 - **Deep case studies.** The three flagship projects (Halix, this portfolio, Deeds Leisure) render as long-form studies on `/work` — a lead overview, content-summarizing sections, a credits line, and an honest AI-assistance disclosure. The remaining builds are demoted to a compact catalogue list.
 - **Motion that earns its keep.** GSAP + ScrollTrigger drive scene transitions, a pinned horizontal work slider, staggered reveals, and themed liquid-glass loading screens. All of it is gated behind `gsap.matchMedia` so reduced-motion users get a calm, static path.
+- **A component library, not just demos.** The Craft lab is driven by a registry ([`src/lib/craft.ts`](src/lib/craft.ts)); each interaction has a detail page at `/craft/[slug]` with its live demo, build breakdown, accessibility notes, and real source read from disk at build — so the code shown always matches the code that runs.
+- **Taste as a portable artifact.** [`skills/motion/SKILL.md`](skills/motion/SKILL.md) encodes the motion rules behind every interaction as a rulebook for AI coding agents, with the reasoning written up on the [blog](https://marcohope.com/blogs).
 
 ### Accessibility
 
@@ -81,7 +98,7 @@ Accessibility is a default, not a pass at the end:
 ### Testing & performance
 
 - **End-to-end:** Playwright (`npm run test:e2e`), configured for a reduced-motion context so assertions are deterministic.
-- **Performance & quality budget:** Lighthouse CI (`npm run lighthouse`) runs against a production build over `/`, `/work`, `/craft`, and `/contact`, asserting **≥ 0.95** for Performance, Accessibility, Best Practices, and SEO (`lighthouserc.json`).
+- **Performance & quality budget:** Lighthouse CI (`npm run lighthouse`) runs against a production build over the core routes plus representative `/craft/[slug]` and `/blogs/[slug]` pages, asserting **≥ 0.95** for Performance, Accessibility, Best Practices, and SEO (`lighthouserc.json`).
 
 > **Latest Lighthouse (desktop, production build):** _run `npm run lighthouse` to regenerate — see `lighthouserc.json` for the enforced ≥ 0.95 budget per category._
 

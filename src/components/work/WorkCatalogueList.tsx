@@ -1,6 +1,8 @@
 import Image from "next/image";
 import { ArrowUpRight } from "lucide-react";
 import { TechIcon } from "@/components/tech/TechIcon";
+import { ToolLogo } from "@/components/tech/ToolLogo";
+import { TECH_ICONS } from "@/components/tech/tech-icons.generated";
 import type { Profile } from "@/lib/profile";
 
 type Project = Profile["projects"][number];
@@ -58,7 +60,12 @@ export function WorkCatalogueList({ projects }: { projects: Project[] }) {
                 <span className="font-mono text-xs text-gold">{p.metric}</span>
                 <span className="flex items-center gap-2.5 text-foreground/55">
                   {p.tech.map((slug) => (
-                    <TechIcon key={slug} slug={slug} className="h-4 w-4" />
+                    <ToolLogo
+                      key={slug}
+                      slug={slug}
+                      label={TECH_ICONS[slug]?.title ?? slug}
+                      className="h-4 w-4"
+                    />
                   ))}
                 </span>
                 {p.href ? (

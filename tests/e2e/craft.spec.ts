@@ -51,3 +51,23 @@ test("build-breakdown details expand", async ({ page }) => {
   await firstBreakdown.getByText("Build breakdown").click();
   await expect(firstBreakdown).toHaveJSProperty("open", true);
 });
+
+test("each card title links to its detail page", async ({ page }) => {
+  await expect(
+    page.getByRole("link", { name: "Spring-loaded toggle" }),
+  ).toHaveAttribute("href", "/craft/spring-loaded-toggle");
+});
+
+test("detail page shows the live demo, source and usage", async ({ page }) => {
+  await page.goto("/craft/spring-loaded-toggle");
+  await expect(
+    page.getByRole("heading", { level: 1, name: "Spring-loaded toggle" }),
+  ).toBeVisible();
+  // The real component runs on the detail page.
+  await expect(page.getByRole("switch", { name: "Demo setting" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Source" })).toBeVisible();
+  // Copy controls for both the source and the usage snippet.
+  await expect(
+    page.getByRole("button", { name: "Copy code" }).first(),
+  ).toBeVisible();
+});

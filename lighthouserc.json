@@ -7,6 +7,8 @@
         "http://localhost:3000/",
         "http://localhost:3000/work",
         "http://localhost:3000/craft",
+        "http://localhost:3000/craft/spring-loaded-toggle",
+        "http://localhost:3000/blogs",
         "http://localhost:3000/contact"
       ],
       "numberOfRuns": 3,

@@ -20,6 +20,7 @@ import plantFlow from "@/assets/about/plantproj/plantproj-flow-chart.png";
 import plantGraph from "@/assets/about/plantproj/plantproj-volt-vs-time-graph.png";
 import portfolioLanding from "@/assets/about/portfolio-landing-pic.png";
 import portfolioWork from "@/assets/about/portfolio-work-page.png";
+import portfolioCraft from "@/assets/about/portfolio-craft-page.png";
 import portfolioContact from "@/assets/about/portfolio-contact-page.png";
 // Award / certificate scans (shown on-demand in the About lightbox).
 import certAiDesign from "@/assets/about/certificates/ai-powered-software-and-system-design-cert.png";
@@ -105,7 +106,7 @@ export const profile = {
       href: "https://marcohope.com",
       repo: "",
       image: portfolioLanding,
-      images: [portfolioLanding, portfolioWork, portfolioContact],
+      images: [portfolioLanding, portfolioWork, portfolioCraft, portfolioContact],
       tech: ["typescript", "nextjs", "react", "tailwind", "gsap", "figma"],
       problem:
         "A portfolio should prove the craft it claims — so it had to demonstrate UI/UX sensibility and front-end motion work, not just describe it.",
