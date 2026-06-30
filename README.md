@@ -98,7 +98,7 @@ Accessibility is a default, not a pass at the end:
 ### Testing & performance
 
 - **End-to-end:** Playwright (`npm run test:e2e`), configured for a reduced-motion context so assertions are deterministic.
-- **Performance & quality budget:** Lighthouse CI (`npm run lighthouse`) runs against a production build over the core routes plus representative `/craft/[slug]` and `/blogs/[slug]` pages, asserting **≥ 0.95** for Performance, Accessibility, Best Practices, and SEO (`lighthouserc.json`).
+- **Performance & quality budget:** Lighthouse CI (`npm run lighthouse`) runs against a production build over the core routes plus representative `/craft/[slug]` and `/blogs/[slug]` pages. Accessibility, Best Practices, and SEO are gated at **≥ 0.95 on every page**; Performance is gated at **≥ 0.95** everywhere except the two Spline-3D pages (`/work`, `/contact`), where the heavy WebGL embed makes a headless perf score unrepresentative — there it's tracked (warn) rather than blocked (`lighthouserc.json`).
 
 > **Latest Lighthouse (desktop, production build):** _run `npm run lighthouse` to regenerate — see `lighthouserc.json` for the enforced ≥ 0.95 budget per category._
 
