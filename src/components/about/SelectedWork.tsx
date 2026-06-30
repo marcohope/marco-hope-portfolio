@@ -34,7 +34,7 @@ const STATUS: Record<string, { label: string; dot: string }> = {
 
 // The home grid is a curated subset — the strongest product-UI work, in
 // catalogue order. The full six (incl. the hardware / IRL builds) live on /work.
-const HOME_CODES = new Set(["HX-001", "PF-003", "DL-002"]);
+const HOME_CODES = new Set(["HX-001", "PF-003", "MN-004"]);
 const homeProjects = profile.projects.filter((p) => HOME_CODES.has(p.code));
 
 function isExternal(href: string) {

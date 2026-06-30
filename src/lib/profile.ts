@@ -123,36 +123,6 @@ export const profile = {
         "Being my own client meant every detail was a judgment call with no brief to hide behind — it sharpened my taste and my sense for where motion actually earns its keep.",
     },
     {
-      code: "DL-002",
-      name: "Deeds Leisure — Lead-Gen Tool",
-      role: "Python/AI Scraper & Sales Intern",
-      kind: "Desktop Automation",
-      status: "shipped",
-      year: "Jan – Mar 2026",
-      featured: false,
-      blurb:
-        "A desktop lead-generation tool that automated outreach research across 25 Ontario cities and 43 business categories.",
-      metric: "~75% TIME SAVED",
-      href: "",
-      repo: "",
-      image: dlScraper,
-      images: [dlScraper, dlApps, dlLeads],
-      tech: ["python", "electron", "nodejs", "figma"],
-      problem:
-        "The sales team manually prospected across dozens of Ontario cities and business categories — slow, repetitive work that scaled poorly.",
-      approach: [
-        "Built a ~1,000-line Python scraping pipeline (DuckDuckGo Search, BeautifulSoup, regex extraction).",
-        "Wrapped it in an Electron desktop app with a custom frameless UI designed in Figma so non-technical staff could run it.",
-        "Improved lead relevance with quality scoring (0–100), franchise filtering, and domain blocklisting; packaged as .dmg / .exe via PyInstaller + electron-builder.",
-      ],
-      outcome: [
-        "Automated outreach research across 25 cities and 43 categories, cutting manual prospecting time by roughly 75%.",
-        "Handed the sales team a self-serve tool they could run without engineering support.",
-      ],
-      reflection:
-        "Shipping for non-technical users made me value packaging and UX as much as the scraper itself — the tool only mattered once someone could actually run it.",
-    },
-    {
       code: "MN-004",
       name: "Minoa Home",
       role: "UX/UI & Digital Marketing Intern",
@@ -181,6 +151,36 @@ export const profile = {
       ],
       reflection:
         "Working inside an established brand taught me to design within constraints and to make my process repeatable, so the impact outlived my time there.",
+    },
+    {
+      code: "DL-002",
+      name: "Deeds Leisure — Lead-Gen Tool",
+      role: "Python/AI Scraper & Sales Intern",
+      kind: "Desktop Automation",
+      status: "shipped",
+      year: "Jan – Mar 2026",
+      featured: false,
+      blurb:
+        "A desktop lead-generation tool that automated outreach research across 25 Ontario cities and 43 business categories.",
+      metric: "~75% TIME SAVED",
+      href: "",
+      repo: "",
+      image: dlScraper,
+      images: [dlScraper, dlApps, dlLeads],
+      tech: ["python", "electron", "nodejs", "figma"],
+      problem:
+        "The sales team manually prospected across dozens of Ontario cities and business categories — slow, repetitive work that scaled poorly.",
+      approach: [
+        "Built a ~1,000-line Python scraping pipeline (DuckDuckGo Search, BeautifulSoup, regex extraction).",
+        "Wrapped it in an Electron desktop app with a custom frameless UI designed in Figma so non-technical staff could run it.",
+        "Improved lead relevance with quality scoring (0–100), franchise filtering, and domain blocklisting; packaged as .dmg / .exe via PyInstaller + electron-builder.",
+      ],
+      outcome: [
+        "Automated outreach research across 25 cities and 43 categories, cutting manual prospecting time by roughly 75%.",
+        "Handed the sales team a self-serve tool they could run without engineering support.",
+      ],
+      reflection:
+        "Shipping for non-technical users made me value packaging and UX as much as the scraper itself — the tool only mattered once someone could actually run it.",
     },
     {
       code: "FM-005",
@@ -329,12 +329,18 @@ export const profile = {
 
 export type Profile = typeof profile;
 
+// Codes shown on /about as "engineering roots" (hardware origins) and kept OFF
+// the /work catalogue, so the work page stays focused on client-facing builds.
+export const ENGINEERING_ROOT_CODES: readonly string[] = ["FM-005", "AW-006"];
+
 // ── Long-form case studies for the flagship projects ──────────────────────────
 // Rendered as deep studies on /work, keyed by project `code`. Projects without
 // an entry here render as compact catalogue cards in the "More from the
 // catalogue" list. Kept OUT of `profile.projects` so the rich nested content
 // doesn't fight `as const` inference (and so the catalogue stays scannable).
 export type CaseStudy = {
+  /** One-line outcome — the result, surfaced in a banner above the overview. */
+  outcome: string;
   /** Short team / collaborators note for the credits line. */
   team: string;
   /** Honest AI-assistance disclosure — only where AI coding agents built it. */
@@ -347,6 +353,8 @@ export type CaseStudy = {
 
 export const caseStudies: Record<string, CaseStudy> = {
   "HX-001": {
+    outcome:
+      "From zero to a live, paying B2B AI SaaS — designed, built, and owned end-to-end as the sole technical owner.",
     team: "Sole technical owner — no separate engineering team",
     ai: {
       tool: "Claude Code",
@@ -399,6 +407,8 @@ export const caseStudies: Record<string, CaseStudy> = {
     ],
   },
   "PF-003": {
+    outcome:
+      "A motion-led site that ships at 0 WCAG A/AA violations (axe-verified) and stays fully reduced-motion-aware — proof of the craft it claims.",
     team: "Solo — design & direction",
     ai: {
       tool: "Claude Code",
@@ -446,6 +456,8 @@ export const caseStudies: Record<string, CaseStudy> = {
     ],
   },
   "DL-002": {
+    outcome:
+      "Cut the sales team's manual prospecting time by roughly 75% — and handed them a tool they could run without engineering support.",
     team: "Solo build, embedded on the sales team",
     overview:
       "Deeds Leisure's sales team prospected by hand — searching city by city, category by category, copying out contact details one search at a time. As a Python/AI scraper and sales intern, I built the tool that replaced that grind: a desktop app that researches outreach targets across 25 Ontario cities and 43 business categories on demand. The people running it weren't technical, so it had to feel like a product, not a script. I sat on the sales team it was built for, which kept the requirements honest and the test loop short.",
@@ -480,6 +492,39 @@ export const caseStudies: Record<string, CaseStudy> = {
         points: [
           "Frameless desktop UI designed in Figma, wrapped in Electron",
           "Shipped as .dmg and .exe via PyInstaller + electron-builder",
+        ],
+      },
+    ],
+  },
+  "MN-004": {
+    outcome:
+      "Audited and tightened a live Shopify storefront across B2B and B2C, and left behind a documented content system the team still runs.",
+    team: "Embedded on Minoa's marketing team",
+    overview:
+      "Minoa Home is a sustainable-luxury brand selling across two very different journeys — wholesale B2B buyers and direct B2C shoppers — on one Shopify storefront. As a UX/UI and digital-marketing intern, I worked inside an established brand rather than a blank canvas: audit the storefront for UX, UI consistency, and SEO; produce marketing assets that stay on-brand; and turn a one-off content push into a repeatable system the team could run after I left. The constraint was the point — every change had to respect Minoa's existing fonts, colours, and tone.",
+    sections: [
+      {
+        heading: "One storefront, two audiences to keep straight",
+        body: "Minoa sells to wholesale buyers and retail customers from the same Shopify storefront, and the two journeys want different things — B2B wants catalogue clarity and trust signals, B2C wants story and desire. I audited the storefront for UX flow, UI consistency, and SEO with both paths in mind, looking for where the experience blurred between them or dropped basic on-page SEO. The work was less 'redesign everything' and more 'find the friction and inconsistencies an established store accumulates,' then fix them without breaking the brand.",
+        points: [
+          "UX / UI / SEO audit across the B2B and B2C journeys",
+          "Worked within Minoa's existing brand system, not a rebuild",
+        ],
+      },
+      {
+        heading: "On-brand assets that had to convert, not just look good",
+        body: "Alongside the storefront I produced the marketing assets that drive traffic to it — reels, promotional stills, and newsletters — each held to Minoa's fonts, colours, and tone so the whole funnel reads as one brand. The bar wasn't 'pretty'; it was assets that move someone from a feed to the store, and from the store toward a purchase. Designing inside a tight brand system taught me to make taste calls within constraints, which is most of what real client work actually is.",
+        points: [
+          "Reels, promotional stills, and newsletters, all on-brand",
+          "Tied top-of-funnel content back to the storefront",
+        ],
+      },
+      {
+        heading: "I left a system, not just deliverables",
+        body: "An intern's output disappears when the intern leaves — unless it's a system. So I authored a newsletter guide that onboards new marketing recruits and standardises how the team produces content, and I refined the content strategy from customer insights and analytics rather than guesswork. The goal was leverage: a repeatable process that keeps producing on-brand, engagement-driven content after my term ended. The most valuable thing I left behind wasn't any single asset — it was the documentation that let the next person hit the same bar.",
+        points: [
+          "Authored a newsletter guide to onboard new recruits",
+          "Content strategy refined from insights + analytics",
         ],
       },
     ],

@@ -73,6 +73,18 @@ export function WorkProject({ project }: { project: Project }) {
               <span className="font-mono text-xs text-gold">{project.metric}</span>
             </p>
 
+            {/* Outcome — the result, led above the gallery and overview. */}
+            {study?.outcome ? (
+              <div className="mt-6 rounded-xl border border-accent/25 bg-accent/[0.06] px-5 py-4">
+                <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-accent">
+                  Outcome
+                </p>
+                <p className="mt-1.5 font-display text-lg font-semibold leading-snug text-foreground md:text-xl">
+                  {study.outcome}
+                </p>
+              </div>
+            ) : null}
+
             {/* Photos */}
             <div className="mt-7">
               <WorkGallery images={project.images} title={project.name} />

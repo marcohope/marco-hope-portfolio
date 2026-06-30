@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { ArrowRight, ChevronDown } from "lucide-react";
 import { CurtainLink } from "@/components/transition/CurtainLink";
+import { TechIcon } from "@/components/tech/TechIcon";
 import { Eyebrow } from "@/components/ui/eyebrow";
 import { ProfilePortrait } from "@/components/about/ProfilePortrait";
 import { HeroSpotlight } from "@/components/about/HeroSpotlight";
@@ -10,7 +11,7 @@ import { Reveal, RevealGroup } from "@/components/site/reveal";
 import { ScrollScene } from "@/components/site/scroll-scene";
 import { SelectedWork } from "@/components/about/SelectedWork";
 import { ToolsMarquee } from "@/components/about/ToolsMarquee";
-import { profile } from "@/lib/profile";
+import { profile, ENGINEERING_ROOT_CODES } from "@/lib/profile";
 import marcoReading from "@/assets/about/marco-reading.jpg";
 import marcoRiverbank from "@/assets/about/marco-riverbank.jpg";
 
@@ -18,7 +19,12 @@ import marcoRiverbank from "@/assets/about/marco-riverbank.jpg";
 // hint can't drift from the actual /work catalogue.
 const featured =
   profile.projects.find((p) => p.featured) ?? profile.projects[0];
-const moreCount = profile.projects.length - 1;
+// Hardware origins shown in their own "engineering roots" section below.
+const engineeringRoots = profile.projects.filter((p) =>
+  ENGINEERING_ROOT_CODES.includes(p.code),
+);
+// "N more builds" teaser counts only what /work actually lists (origins excluded).
+const moreCount = profile.projects.length - engineeringRoots.length - 1;
 
 /**
  * The sakura day-and-night portrait experience: headshot, name, and intro over
@@ -185,6 +191,75 @@ export function SakuraProfile() {
                 </Eyebrow>
                 <CredentialList items={profile.certs} />
               </div>
+            </div>
+          </section>
+        </ScrollScene>
+
+        {/* Engineering roots — hardware origins, kept here rather than on /work
+            so the work page stays focused on client-facing builds. */}
+        <ScrollScene>
+          <section className="washi washi-hover relative overflow-hidden p-7 md:p-10">
+            <span
+              aria-hidden
+              lang="ja"
+              className="pointer-events-none absolute -right-2 -top-8 select-none font-display text-[clamp(6rem,22vw,13rem)] leading-none text-foreground/[0.06]"
+            >
+              原
+            </span>
+            <h2 className="sr-only">Engineering roots</h2>
+            <Eyebrow>
+              Engineering roots · <span lang="ja">原点</span>
+            </Eyebrow>
+            <p className="mt-4 max-w-prose font-display text-2xl font-semibold leading-snug text-foreground md:text-3xl">
+              Where it started — at the wiring.
+            </p>
+            <p className="mt-3 max-w-prose text-foreground/75">
+              Before the web I built hardware. That habit of caring how a thing
+              actually works, down to the signal, is still how I approach an
+              interface.
+            </p>
+            <div className="mt-8 grid gap-5 sm:grid-cols-2">
+              {engineeringRoots.map((p) => (
+                <article
+                  key={p.code}
+                  className="flex flex-col overflow-hidden rounded-2xl border border-border/60 bg-surface/40"
+                >
+                  {p.image ? (
+                    <div className="relative aspect-[16/10] w-full border-b border-border/60">
+                      <Image
+                        src={p.image}
+                        alt={`${p.name} — ${p.kind}`}
+                        fill
+                        sizes="(max-width: 640px) 100vw, 360px"
+                        placeholder="blur"
+                        className="object-cover"
+                      />
+                    </div>
+                  ) : null}
+                  <div className="flex flex-1 flex-col p-5">
+                    <p className="font-mono text-[0.7rem] uppercase tracking-[0.16em] text-foreground/55">
+                      {p.kind}
+                    </p>
+                    <h3 className="mt-1.5 font-display text-lg font-semibold leading-snug text-foreground">
+                      {p.name}
+                    </h3>
+                    <p className="mt-2 text-sm leading-relaxed text-foreground/70">
+                      {p.blurb}
+                    </p>
+                    {p.repo ? (
+                      <a
+                        href={p.repo}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="mt-4 inline-flex w-fit items-center gap-1.5 text-sm font-medium text-foreground/80 transition-colors hover:text-accent"
+                      >
+                        <TechIcon slug="github" className="h-4 w-4" />
+                        Code
+                      </a>
+                    ) : null}
+                  </div>
+                </article>
+              ))}
             </div>
           </section>
         </ScrollScene>

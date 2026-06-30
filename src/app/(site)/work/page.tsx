@@ -9,18 +9,21 @@ import { WorkHoverHint } from "@/components/work/WorkHoverHint";
 import { WorkProject } from "@/components/work/WorkProject";
 import { WorkCatalogueList } from "@/components/work/WorkCatalogueList";
 import { SceneLoader } from "@/components/intro/SceneLoader";
-import { profile, caseStudies } from "@/lib/profile";
+import { profile, caseStudies, ENGINEERING_ROOT_CODES } from "@/lib/profile";
 
 // /work leads with the flagship case studies (those with a long-form entry in
 // `caseStudies`), each a full scroll-scene, then lists the rest of the
-// catalogue in brief.
+// catalogue in brief. Hardware "engineering roots" live on /about, so the
+// catalogue excludes them — lite = neither a flagship study nor an origin build.
 const deepProjects = profile.projects.filter((p) => caseStudies[p.code]);
-const liteProjects = profile.projects.filter((p) => !caseStudies[p.code]);
+const liteProjects = profile.projects.filter(
+  (p) => !caseStudies[p.code] && !ENGINEERING_ROOT_CODES.includes(p.code),
+);
 
 export const metadata: Metadata = {
   title: "Work",
   description:
-    "Selected projects: Halix Solutions (B2B AI SaaS), a Python/Electron lead-gen tool, a Shopify UX/SEO audit, and an Arduino FM radio.",
+    "Selected case studies: Halix Solutions (B2B AI SaaS), this motion-led portfolio, a Shopify UX/SEO audit for Minoa Home, and a Python/Electron lead-gen tool.",
   alternates: { canonical: "/work" },
 };
 
@@ -53,14 +56,12 @@ export default function WorkPage() {
                 Work
               </h1>
               <p className="mt-5 text-lg text-foreground/70">
-                Things I&rsquo;ve designed and shipped. The flagship builds are
-                full case studies — scroll through each — with the rest of the
-                catalogue in brief below.
+                Things I&rsquo;ve designed and shipped — the flagship builds,
+                each a full case study. Scroll through.
               </p>
               <p className="mt-8 font-mono text-xs uppercase tracking-[0.22em] text-foreground/55">
-                {String(deepProjects.length).padStart(2, "0")} case studies ·{" "}
-                {String(liteProjects.length).padStart(2, "0")} more · scroll to
-                begin
+                {String(deepProjects.length).padStart(2, "0")} case studies ·
+                scroll to begin
               </p>
             </Reveal>
           </div>
@@ -72,22 +73,25 @@ export default function WorkPage() {
           <WorkProject key={p.code} project={p} />
         ))}
 
-        {/* The rest of the catalogue — compact cards, not full scroll-scenes. */}
-        <section className="pointer-events-auto mx-auto w-full max-w-7xl px-6 py-20 md:px-10 md:py-24 lg:px-16">
-          <Eyebrow>
-            More from the catalogue · <span lang="ja">他</span>
-          </Eyebrow>
-          <h2 className="mt-4 max-w-xl font-display text-3xl font-semibold leading-tight tracking-tight md:text-4xl">
-            Also in the workshop.
-          </h2>
-          <p className="mt-3 max-w-xl text-foreground/70">
-            Hardware and earlier client work — shorter to tell, but they shaped
-            how I build.
-          </p>
-          <div className="max-w-3xl">
-            <WorkCatalogueList projects={liteProjects} />
-          </div>
-        </section>
+        {/* The rest of the catalogue — compact cards, not full scroll-scenes.
+            Only renders when there are non-flagship, non-origin builds to list
+            (the hardware "engineering roots" now live on /about). */}
+        {liteProjects.length > 0 ? (
+          <section className="pointer-events-auto mx-auto w-full max-w-7xl px-6 py-20 md:px-10 md:py-24 lg:px-16">
+            <Eyebrow>
+              More from the catalogue · <span lang="ja">他</span>
+            </Eyebrow>
+            <h2 className="mt-4 max-w-xl font-display text-3xl font-semibold leading-tight tracking-tight md:text-4xl">
+              Also in the workshop.
+            </h2>
+            <p className="mt-3 max-w-xl text-foreground/70">
+              Shorter to tell, but they shaped how I build.
+            </p>
+            <div className="max-w-3xl">
+              <WorkCatalogueList projects={liteProjects} />
+            </div>
+          </section>
+        ) : null}
 
         {/* Footer mini-nav */}
         <footer className="pointer-events-auto mx-auto w-full max-w-7xl px-6 pb-24 md:px-10 lg:px-16">
