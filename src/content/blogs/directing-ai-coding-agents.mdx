@@ -1,0 +1,31 @@
+I ship production software by directing AI coding agents. That sentence sets off alarms for some people, so let me be precise about what it means — because the part that matters isn't the typing.
+
+The agents type. I decide what gets typed, and what gets rejected. Everything I'm proud of in [Halix](/work) — a live, paying B2B SaaS I built as sole technical owner — was written this way. None of the judgment was.
+
+## The parts that don't delegate
+
+There's a clean line between the work an agent does well and the work that has to stay with me. Three things never crossed it:
+
+- **Architecture.** Where the boundaries go, what the data model is, which problems are worth solving now versus later. An agent will happily build whatever you point it at, including the wrong thing, very fast.
+- **Code review.** I read every diff. "It runs" is not "it's correct," and an agent's confidence is uncorrelated with whether the code should merge. Reviewing unreviewed AI output is the actual job, not a formality after it.
+- **Taste.** Every spacing decision, every easing curve, every call about whether an interaction earns its place. That's where the craft lives, and it's the least delegable thing there is.
+
+## The loop
+
+The work is a loop, run hundreds of times a day: I specify intent precisely, the agent executes, I judge the result, and I do it again. Specifying intent well is a skill — vague prompts get vague code. Judging the result is a harder one, because the failure mode isn't code that breaks. It's code that's plausible and subtly wrong, and the only defense is knowing what right looks like before you ask.
+
+Holding the whole system in your head while an agent fills in the parts is closer to leading a fast junior engineer than to "using a tool." You don't get to check out. You get to move faster *only if* your standards don't drop to match the speed.
+
+## Making taste portable
+
+The most useful thing I've done with this workflow is stop re-explaining myself. If I know what great feels like, I can describe the rules once and hand them to the agent instead of correcting the same mistake on every task.
+
+So I wrote my interface-motion taste down as a [skill file](https://github.com/marcohope/marco-hope-portfolio/blob/main/skills/motion/SKILL.md): the 300ms feedback ceiling, when to reach for a spring ease, why `prefers-reduced-motion` is a first-class path and not a fallback, how to keep a pointer-driven effect at 60fps. It's the literal rulebook I give an agent before it writes a tween. Every rule in it is running in [the craft lab](/craft), so it's not theory — it's reverse-engineered from interactions I'd already built by hand and decided were right.
+
+That file is the clearest answer I have to the question of whether directing agents is a strength or a crutch. You can't write down taste you don't have.
+
+## Why I call it engineering
+
+Andrej Karpathy's framing is the one I'd use: the new default is that you're not writing the code 99% of the time — you're orchestrating the agents that do, and acting as oversight. "Engineering," not "vibes," because there's a craft and an expertise to doing it well.
+
+The skill didn't go away. It moved up a level — from typing the solution to specifying it precisely, recognizing when the output is close-but-wrong, and refusing to ship the wrong thing quickly. I'd rather be measured on what I chose and what I rejected than on how many lines I personally keyed in.

@@ -2,14 +2,14 @@ import Image from "next/image";
 import { ArrowRight, ChevronDown } from "lucide-react";
 import { CurtainLink } from "@/components/transition/CurtainLink";
 import { Eyebrow } from "@/components/ui/eyebrow";
-import { TechIcon } from "@/components/tech/TechIcon";
 import { ProfilePortrait } from "@/components/about/ProfilePortrait";
 import { HeroSpotlight } from "@/components/about/HeroSpotlight";
 import { CredentialList } from "@/components/about/CredentialList";
-import { Timeline } from "@/components/site/Timeline";
+import { JourneyBranch } from "@/components/about/JourneyBranch";
 import { Reveal, RevealGroup } from "@/components/site/reveal";
 import { ScrollScene } from "@/components/site/scroll-scene";
-import { ProjectsCarousel } from "@/components/about/ProjectsCarousel";
+import { SelectedWork } from "@/components/about/SelectedWork";
+import { ToolsMarquee } from "@/components/about/ToolsMarquee";
 import { profile } from "@/lib/profile";
 import marcoReading from "@/assets/about/marco-reading.jpg";
 import marcoRiverbank from "@/assets/about/marco-riverbank.jpg";
@@ -22,8 +22,9 @@ const moreCount = profile.projects.length - 1;
 
 /**
  * The sakura day-and-night portrait experience: headshot, name, and intro over
- * the open sky, followed by the washi content stack (bio, journey, tools,
- * awards, certifications) and the closing CTAs into /work and /contact.
+ * the open sky, then the tools marquee and selected work, followed by the washi
+ * content stack (bio, journey, awards, certifications) and the closing CTAs into
+ * /work and /contact.
  * Rendered inside <AboutExperience>, which supplies the day↔night theme,
  * watercolor backdrop, drifting petals, and the toggle.
  */
@@ -72,10 +73,18 @@ export function SakuraProfile() {
       </section>
       </ScrollScene>
 
-      {/* ── Selected work: a scroll-pinned horizontal slider through the
-          catalogue — the section pins and the cards slide past as you scroll,
-          then it releases into the content stack below. ──────────────────── */}
-      <ProjectsCarousel />
+      {/* ── Tools: the full stack as a two-row, auto-scrolling marquee, set
+          just before the work it powers. ─────────────────────────────────── */}
+      <ScrollScene>
+        <div className="relative z-10 mx-auto w-full max-w-5xl px-6 py-10 md:px-8 md:py-16">
+          <ToolsMarquee />
+        </div>
+      </ScrollScene>
+
+      {/* ── Selected work: a three-card grid of the strongest product-UI
+          builds (featured-posts layout, sakura-themed), closing into /work via
+          a GSAP "View all work" CTA. ─────────────────────────────────────── */}
+      <SelectedWork />
 
       {/* ── Content stack: washi panels floating over the scene ─────────── */}
       <div className="mx-auto max-w-5xl space-y-8 px-6 pb-32 md:px-8">
@@ -135,39 +144,26 @@ export function SakuraProfile() {
 
         {/* Journey */}
         <ScrollScene>
-          <section className="washi washi-hover p-7 md:p-10">
+          <section className="washi washi-hover relative p-7 md:p-10">
+            {/* Watermark clipped to the panel via its own wrapper, so the
+                section itself stays unclipped and the finale petal storm can
+                drift down out of the panel into the page. */}
+            <div
+              aria-hidden
+              className="pointer-events-none absolute inset-0 overflow-hidden rounded-2xl"
+            >
+              <span
+                lang="ja"
+                className="absolute -right-2 -top-8 select-none font-display text-[clamp(6rem,22vw,13rem)] leading-none text-foreground/[0.06]"
+              >
+                歩
+              </span>
+            </div>
             <h2 className="sr-only">Journey</h2>
             <Eyebrow>
               Journey · <span lang="ja">歩み</span>
             </Eyebrow>
-            <Timeline items={profile.journey} />
-          </section>
-        </ScrollScene>
-
-        {/* Tools */}
-        <ScrollScene>
-          <section className="washi washi-hover p-7 md:p-10">
-            <h2 className="sr-only">Skills and tools</h2>
-            <Eyebrow>
-              Tools · <span lang="ja">道具</span>
-            </Eyebrow>
-            <RevealGroup
-              className="mt-7 grid grid-cols-3 gap-3 sm:grid-cols-4 md:grid-cols-6"
-              stagger={0.04}
-              y={16}
-            >
-              {profile.allTech.map((slug) => (
-                <div
-                  key={slug}
-                  className="group flex items-center justify-center rounded-lg border border-border/70 bg-elevated/30 p-4 transition duration-200 hover:-translate-y-0.5 hover:border-accent/50"
-                >
-                  <TechIcon
-                    slug={slug}
-                    className="h-7 w-7 text-foreground/65 transition-colors group-hover:text-accent"
-                  />
-                </div>
-              ))}
-            </RevealGroup>
+            <JourneyBranch items={profile.journey} />
           </section>
         </ScrollScene>
 

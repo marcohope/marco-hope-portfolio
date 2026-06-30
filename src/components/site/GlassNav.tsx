@@ -12,6 +12,7 @@ const LINKS = [
   { label: "Home", href: "/" },
   { label: "Work", href: "/work" },
   { label: "Craft", href: "/craft" },
+  { label: "Blogs", href: "/blogs" },
   { label: "Contact", href: "/contact" },
 ];
 
@@ -28,14 +29,16 @@ const FOCUS_RING =
 export function GlassNav({
   tone = "sakura",
 }: {
-  tone?: "sakura" | "work" | "contact" | "craft";
+  tone?: "sakura" | "work" | "contact" | "craft" | "blogs";
 }) {
   const isWork = tone === "work";
   const isContact = tone === "contact";
   const isCraft = tone === "craft";
+  const isBlogs = tone === "blogs";
   const aboutNight = useAboutMode() === "night";
-  // Work, contact + craft tones are their own fixed schemes — they ignore day/night.
-  const isNight = !isWork && !isContact && !isCraft && aboutNight;
+  // Work, contact, craft + blogs tones are their own fixed schemes — they ignore
+  // day/night (blogs is a fixed light cloudscape, so it reuses the light branch).
+  const isNight = !isWork && !isContact && !isCraft && !isBlogs && aboutNight;
   const reduceTransparency = useReducedTransparency();
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -278,7 +281,7 @@ export function GlassNav({
             </CurtainLink>
           )}
 
-          {!isWork && !isContact && !isCraft && (
+          {!isWork && !isContact && !isCraft && !isBlogs && (
             <SkyToggle
               checked={isNight}
               onChange={toggleAboutMode}
@@ -291,7 +294,7 @@ export function GlassNav({
 
         {/* Mobile cluster */}
         <div className="flex items-center gap-1 md:hidden">
-          {!isWork && !isContact && !isCraft && (
+          {!isWork && !isContact && !isCraft && !isBlogs && (
             <SkyToggle
               checked={isNight}
               onChange={toggleAboutMode}

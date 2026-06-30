@@ -1,6 +1,8 @@
 import { ArrowUpRight } from "lucide-react";
 import { Eyebrow } from "@/components/ui/eyebrow";
 import { TechIcon } from "@/components/tech/TechIcon";
+import { ToolLogo } from "@/components/tech/ToolLogo";
+import { TECH_ICONS } from "@/components/tech/tech-icons.generated";
 import { ScrollScene } from "@/components/site/scroll-scene";
 import { WorkGallery } from "@/components/work/WorkGallery";
 import { cn } from "@/lib/utils";
@@ -127,7 +129,12 @@ export function WorkProject({ project }: { project: Project }) {
             <div className="mt-8 flex flex-wrap items-center gap-x-5 gap-y-3">
               <span className="flex items-center gap-2.5 text-foreground/55">
                 {project.tech.map((slug) => (
-                  <TechIcon key={slug} slug={slug} className="h-4 w-4" />
+                  <ToolLogo
+                    key={slug}
+                    slug={slug}
+                    label={TECH_ICONS[slug]?.title ?? slug}
+                    className="h-4 w-4"
+                  />
                 ))}
               </span>
               {project.href ? (

@@ -1,0 +1,31 @@
+Halix Solutions is an AI-powered B2B SaaS for digital marketing agencies. As technical co-founder I took it from nothing to a live, paying product — and I was the sole technical owner, with no separate engineering team behind me. Here's what that actually involves, beyond the line on a résumé.
+
+The full breakdown lives in [the case study](/work). This is the shorter version of what I learned holding all of it at once.
+
+## Two surfaces, one design system
+
+The product lives in two places that pull in opposite directions: a public marketing site that has to *sell*, and an authenticated, multi-tenant workspace that has to *work*. I owned the UI/UX for both — flows, wireframes, the visual system, and a component library shared across them.
+
+The discipline was refusing to let them drift into two products. One token set, one component vocabulary, so a button on the landing page and a button inside the app read as the same company by the same hand. Multi-tenant also meant designing for *accounts*, not just users — clean separation of who sees what, enforced underneath by Row-Level Security rather than trusted to the UI to hide.
+
+## A research pipeline with no research team
+
+The core feature is automated market research: competitor intent-gap analysis and trend reports, for agencies who'd otherwise do this by hand. Under the interface it's a multi-stage LLM pipeline, with long-running analysis orchestrated as background jobs so a single slow run never blocks a request.
+
+The hard part was never calling a model once. It was staging the work — designing the prompts and the end-to-end flow so raw signals move through each stage and come out as something an agency can hand a client. Reliability, not cleverness, was the whole game.
+
+## Billing and security, early on purpose
+
+Money and safety are easy to skip in a 0-to-1 and expensive to retrofit, so I wired both in before they were urgent. Billing runs on Stripe — subscription tiers plus usage-based pricing, kept in sync through webhooks. Security got real attention: Row-Level Security policies, rate limiting, OWASP-style audits, and secure-by-default permissions, so the database refuses bad access instead of trusting the app to ask nicely. It all ships through CI/CD that runs test and security gates and applies migrations before anything reaches production.
+
+None of this is glamorous. All of it is the difference between a demo and a product people pay for.
+
+## Shaping the story, not just the software
+
+A technical co-founder who only writes code leaves the product half-sold. I also shaped brand and go-to-market — the landing narrative, the positioning, the marketing assets. And that fed straight back into the design: the same read on who the agency buyer is drove both the pitch on the marketing site and the flows inside the app.
+
+That's the throughline. One person holding the product, the engineering direction, and the story it tells — together — and carrying it from zero to a live, paying SaaS.
+
+## What it taught me
+
+Wearing every hat forces a kind of honesty. There's no one to hand the unglamorous decision to, and no brief to hide behind when a call comes out wrong. You learn to make pragmatic trade-offs under real constraints, and you learn which corners are load-bearing and which ones you can leave rough for now. Mostly you learn that shipping is a series of those judgments, made quickly, owned completely.

@@ -1,0 +1,39 @@
+import { SpringToggleDemo } from "@/components/craft/SpringToggleDemo";
+
+A toggle that slides linearly from off to on works. It's also dead — the kind of motion you'd never describe as feeling like anything. Here's the one I actually ship. Flip it a few times.
+
+<div className="mt-8 grid h-60 place-items-center overflow-hidden rounded-2xl border border-border bg-card">
+  <SpringToggleDemo />
+</div>
+
+The difference between this and a CSS `transition: left 200ms` is small in code and large in the hand. It comes down to three deliberate choices, none of which a user would consciously notice — which is exactly the point.
+
+## The thumb overshoots, then settles
+
+The thumb doesn't ease into the far edge. It rides a `back.out(2.4)` spring, so it travels *past* its resting position and rebounds back into place. That tiny overshoot-and-settle is what sells the "click." Real switches have momentum; they snap and bounce against their stop. A linear tween throws all of that away and you feel the absence even if you can't name it.
+
+`back.out(2.4)` is a specific number, not a default. Lower and the overshoot disappears; higher and the thumb visibly springs like jelly. 2.4 is the largest bounce that still reads as a mechanism rather than a toy.
+
+## It squashes along the direction of travel
+
+While the thumb moves, it squashes — `scaleX` dips to about 86% and rounds back out at rest. The squash is anchored to the *leading* edge: `transform-origin` is `right center` on the way on, `left center` on the way back. So it compresses into the wall it's heading for, like a physical object meeting resistance, instead of shrinking symmetrically in place.
+
+It's a 14% deformation that lasts 120 milliseconds. You won't see it if you look for it. You'll feel its absence if it's gone.
+
+## The track changes color in lockstep
+
+The track crossfades from neutral to accent across the same throw, in lockstep with the thumb — not before, not after. When two things that should be one motion drift out of sync by even a few frames, the whole interaction reads as cheap. Keeping them welded together is most of what "polish" means here.
+
+## It's still a real switch
+
+None of this costs accessibility, because the physics live on top of a real control. It's a `role="switch"` with `aria-checked`, focusable with Tab, flipped with Space or Enter, and it carries a visible focus ring. The animation is decoration over a correct, semantic foundation — never a `<div onClick>` pretending to be a control.
+
+And for anyone who's asked their OS to minimize motion, the thumb just snaps to position with no overshoot and no squash. That's not a degraded fallback I tolerated; it's a path I designed. An animation that ignores `prefers-reduced-motion` is a bug, not a feature.
+
+## The rule under all of it
+
+Motion is feedback, not decoration. Every one of these choices answers a question the user is already asking — *did that register?* — and answers it the way a physical object would. That's the whole job. When motion stops answering a question, I cut it.
+
+---
+
+This toggle is one of six interactions in [the craft lab](/craft), each inspectable and each following the same rulebook. I wrote that rulebook down as a [motion skill file](https://github.com/marcohope/marco-hope-portfolio/blob/main/skills/motion/SKILL.md) — the exact rules I hand my AI coding agents so the code they type feels like this.

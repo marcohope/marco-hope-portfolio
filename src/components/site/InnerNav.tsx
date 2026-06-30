@@ -10,6 +10,7 @@ const LINKS = [
   { label: "Home", href: "/" },
   { label: "Work", href: "/work" },
   { label: "Craft", href: "/craft" },
+  { label: "Blogs", href: "/blogs" },
   { label: "Contact", href: "/contact" },
 ];
 
@@ -19,6 +20,7 @@ const LINKS = [
 function themeForPath(p: string, aboutMode: AboutMode) {
   if (p.startsWith("/work")) return "theme-work";
   if (p.startsWith("/craft")) return "theme-craft";
+  if (p.startsWith("/blogs")) return "theme-blogs";
   if (p === "/")
     return aboutMode === "night" ? "theme-about-night" : "theme-about-day";
   if (p.startsWith("/contact")) return "theme-contact";
@@ -84,12 +86,13 @@ export function InnerNav() {
     };
   }, [open]);
 
-  // /work, /contact and /craft use the home's floating GlassNav, so the inner
-  // nav steps aside on those routes.
+  // /work, /contact, /craft and /blogs use the home's floating GlassNav, so
+  // the inner nav steps aside on those routes.
   if (
     pathname.startsWith("/work") ||
     pathname.startsWith("/contact") ||
-    pathname.startsWith("/craft")
+    pathname.startsWith("/craft") ||
+    pathname.startsWith("/blogs")
   )
     return null;
 

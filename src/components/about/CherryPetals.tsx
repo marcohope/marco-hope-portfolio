@@ -3,14 +3,11 @@
 import { useRef } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
+import { PETAL_PATH } from "@/lib/sakura";
 
 gsap.registerPlugin(useGSAP);
 
 const COUNT = 18;
-
-// A single sakura petal with a soft notch at the wide (top) end.
-const PETAL_PATH =
-  "M10 24 C2 16 2.5 6 7.5 1.2 C8.8 0 8.2 3.2 10 3.8 C11.8 3.2 11.2 0 12.5 1.2 C17.5 6 18 16 10 24 Z";
 
 /**
  * Decorative cherry-blossom petals drifting down the /about scene. Pure GSAP:
