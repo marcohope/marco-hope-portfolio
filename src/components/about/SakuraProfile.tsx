@@ -50,14 +50,15 @@ export function SakuraProfile() {
             Marco Hope
           </h1>
           <p
-            data-text="Design engineer — I design and build AI-powered web products that feel as good as they look."
+            data-text="I design and build high-craft, motion-led websites for startups and premium brands."
             className="hero-glow hero-ink-soft max-w-3xl text-pretty font-display text-xl font-semibold text-foreground/90 md:text-3xl"
           >
-            Design engineer — I design and build AI-powered web products that
-            feel as good as they look.
+            I design and build high-craft, motion-led websites for startups and
+            premium brands.
           </p>
           <p className="hero-ink-soft text-lg text-foreground/75 md:text-xl">
-            Computer Engineering @ York · Co-Founder @ Halix Solutions
+            Design engineer · Computer Engineering @ York · built Halix, a live
+            AI SaaS
           </p>
           <p className="font-mono text-sm uppercase tracking-[0.24em] text-foreground/55">
             {profile.location}
@@ -245,14 +246,14 @@ export function SakuraProfile() {
               Available for new work
             </span>
             <p className="mt-4 font-display text-2xl font-semibold leading-snug text-foreground md:text-3xl">
-              Let&rsquo;s build something.
+              Let&rsquo;s work together.
             </p>
             <p className="mt-3 max-w-prose text-foreground/75">
-              {profile.location} · open to 2026 roles &amp; freelance. Drop a
-              line and I&rsquo;ll get back fast.
+              Got a site or product that needs to feel premium? Tell me your
+              vision and I&rsquo;ll get back fast.
             </p>
             <span className="mt-7 inline-flex items-center gap-1.5 text-sm font-semibold text-foreground/90 transition-colors group-hover:text-accent">
-              Get in touch
+              Work with me
               <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" />
             </span>
           </CurtainLink>

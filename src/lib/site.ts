@@ -1,11 +1,11 @@
 // Production origin + brand strings — the single source of truth for SEO
 // (metadataBase, canonical URLs, sitemap, robots, OG/Twitter cards, JSON-LD).
 //
-// TODO(marco): set SITE_URL to your real deployed domain. Everything SEO-related
-// resolves against this one constant, so this is the only line you need to change.
+// SITE_URL is the live production domain. Everything SEO-related resolves
+// against this one constant, so it's the only line to change if the domain moves.
 export const SITE_URL = "https://marcohope.com";
 
 export const SITE_NAME = "Marco Hope";
 export const SITE_TAGLINE = "Design Engineer";
 export const SITE_DESCRIPTION =
-  "Computer Engineering student and technical co-founder. I design and ship production web products — UI/UX, Next.js, and AI-powered software.";
+  "I design and build high-craft, motion-led websites and product UI for startups and premium brands. Design engineer fluent in UI/UX, Next.js, and motion — built Halix, a live, paying AI SaaS.";

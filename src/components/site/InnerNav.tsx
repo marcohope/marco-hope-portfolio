@@ -190,7 +190,7 @@ export function InnerNav() {
               onClick={() => setOpen(false)}
               className="inline-flex h-12 items-center justify-center rounded-full bg-accent px-6 text-sm font-semibold text-accent-foreground transition-transform duration-200 hover:scale-[1.02]"
             >
-              Let&rsquo;s talk
+              Work with me
             </CurtainLink>
           </div>
         </div>

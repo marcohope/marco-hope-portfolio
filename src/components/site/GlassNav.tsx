@@ -213,7 +213,7 @@ export function GlassNav({
           ? "text-[#bdb1c8] hover:text-[#f2ecf3]"
           : "text-[#4a4452] hover:text-[#2b2733]";
 
-  // Persistent "Let's talk" CTA — a subtle accent-outline pill that tints on
+  // Persistent "Work with me" CTA — a subtle accent-outline pill that tints on
   // hover, with the per-tone accent so it reads against each glass scheme. The
   // wordmark/links stay text; this is the one emphasized action. (Hidden on the
   // contact route, where it would point at the page you're already on.)
@@ -277,7 +277,7 @@ export function GlassNav({
               href="/contact"
               className={`rounded-full border px-4 py-1.5 text-sm font-semibold transition-colors motion-reduce:transition-none ${ctaInk} ${FOCUS_RING}`}
             >
-              Let&rsquo;s talk
+              Work with me
             </CurtainLink>
           )}
 
@@ -360,7 +360,7 @@ export function GlassNav({
               onClick={() => setOpen(false)}
               className={`mt-1 block rounded-xl border px-4 py-3 text-center text-base font-semibold transition-colors motion-reduce:transition-none ${ctaInk} ${FOCUS_RING}`}
             >
-              Let&rsquo;s talk
+              Work with me
             </CurtainLink>
           )}
         </div>

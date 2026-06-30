@@ -14,14 +14,19 @@ import { profile } from "@/lib/profile";
 export const metadata: Metadata = {
   title: "Contact",
   description:
-    "Get in touch with Marco Hope — open to 2026 roles and freelance. Email, GitHub, LinkedIn, and more.",
+    "Work with Marco Hope — a design engineer building high-craft, motion-led websites for startups and premium brands. Available for freelance projects.",
   alternates: { canonical: "/contact" },
 };
+
+// "Work with me" email opens with a prefilled subject so the draft isn't blank.
+const PROJECT_MAILTO = `${profile.links.email}?subject=${encodeURIComponent(
+  "Let's work together",
+)}`;
 
 // The contact destinations, rendered as big "flip" links (see flip-links.tsx).
 // (No "Website" row — it would point back to this very portfolio.)
 const socials: FlipLinkItem[] = [
-  { label: "Email", href: profile.links.email },
+  { label: "Email", href: PROJECT_MAILTO },
   { label: "GitHub", href: profile.links.github },
   { label: "LinkedIn", href: profile.links.linkedin },
 ];
@@ -60,11 +65,14 @@ export default function ContactPage() {
           <Reveal className="max-w-2xl [text-shadow:_0_2px_28px_rgb(0_0_0_/_0.55)]">
             <Eyebrow>Contact · Get in touch</Eyebrow>
             <h1 className="mt-6 font-display text-[clamp(3rem,12vw,6rem)] font-bold leading-[0.95] tracking-tight">
-              Let&rsquo;s talk.
+              Let&rsquo;s work together.
             </h1>
             <p className="mt-5 max-w-xl text-lg text-foreground/70">
-              {profile.location} · open to 2026 roles &amp; freelance. Drop a
-              line and I&rsquo;ll get back fast.
+              {profile.location} · available for freelance projects. Tell me
+              your vision and I&rsquo;ll get back fast.
+            </p>
+            <p className="mt-2 max-w-xl text-sm text-foreground/55">
+              Also open to Winter 2027 co-op roles.
             </p>
             <span className="mt-6 inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 py-1.5 text-xs font-medium text-foreground/75 backdrop-blur-md">
               <span

@@ -36,7 +36,7 @@ export const profile = {
 
   // Two-paragraph bio (used on /about).
   bio: [
-    "I design and build polished, interactive web products end-to-end — from flows and wireframes through to the shipped, motion-led interface. Most of that has gone into Halix Solutions, a live, paying B2B AI SaaS, where I own the full UI/UX across the marketing site and the in-app workspace and contribute across full-stack and go-to-market.",
+    "I build websites and product interfaces for founders and brands who care how a thing feels — motion and interaction that's actually correct: fast, accessible, reduced-motion-aware, and engineered, not just flashy. Most of that craft has gone into Halix Solutions, a live, paying B2B AI SaaS, where I own the full UI/UX across the marketing site and the in-app workspace and contribute across full-stack and go-to-market.",
     "I ship production software end-to-end by directing AI coding agents, and I care about UI/UX craft and translating technical work for non-technical stakeholders.",
     "I came to the web from the hardware side — a from-scratch FM radio, a closed-loop plant-waterer — and that habit of caring how a thing actually works, down to the wiring, is still how I approach an interface.",
   ],
