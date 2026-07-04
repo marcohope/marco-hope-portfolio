@@ -12,6 +12,7 @@ const WANT = {
   nextjs: ["siNextdotjs", "Next.js"],
   tailwind: ["siTailwindcss", "Tailwind CSS"],
   gsap: ["siGreensock", "GSAP"],
+  framer: ["siFramer", "Framer Motion"],
   nodejs: ["siNodedotjs", "Node.js"],
   supabase: ["siSupabase", "Supabase"],
   postgres: ["siPostgresql", "PostgreSQL"],

@@ -33,9 +33,15 @@ const STATUS: Record<string, { label: string; dot: string }> = {
 };
 
 // The home grid is a curated subset — the strongest product-UI work, in
-// catalogue order. The full six (incl. the hardware / IRL builds) live on /work.
+// catalogue order. The full catalogue (incl. the hardware / IRL builds) lives
+// on /work.
 const HOME_CODES = new Set(["HX-001", "PF-003", "MN-004"]);
 const homeProjects = profile.projects.filter((p) => HOME_CODES.has(p.code));
+
+// The latest build leads the section as a full-width hero card, with the
+// curated grid above sitting below it as "more work."
+const MAIN_CODE = "NS-007";
+const mainProject = profile.projects.find((p) => p.code === MAIN_CODE)!;
 
 function isExternal(href: string) {
   return /^https?:\/\//.test(href);
@@ -141,6 +147,91 @@ function ProjectCard({ project }: { project: Project }) {
   );
 }
 
+/** The lead project: a full-width cinematic banner, name/blurb/tech below,
+ * and both an external "Visit" link and a "Read case study" link into /work. */
+function MainProjectCard({ project }: { project: Project }) {
+  const status = STATUS[project.status] ?? STATUS.shipped;
+
+  return (
+    <Reveal className="washi washi-hover group overflow-hidden p-4 md:p-5">
+      <a
+        href={project.href}
+        target="_blank"
+        rel="noreferrer noopener"
+        className="block"
+      >
+        <div className="relative aspect-[16/9] overflow-clip rounded-xl border border-border/60 md:aspect-[21/9]">
+          <Image
+            src={project.image}
+            alt={`${project.name} — ${project.kind}`}
+            fill
+            sizes="(max-width: 768px) 100vw, 1024px"
+            placeholder="blur"
+            priority
+            className="object-cover object-center transition duration-500 group-hover:scale-[1.03]"
+          />
+          <div className="absolute inset-x-0 top-0 flex items-center justify-between p-4">
+            <span className="rounded-md bg-background/55 px-2.5 py-1 font-mono text-xs tracking-wider text-gold backdrop-blur-sm">
+              {project.code}
+            </span>
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-background/55 px-3 py-1 text-xs font-medium text-foreground/85 backdrop-blur-sm">
+              <span aria-hidden className={`h-1.5 w-1.5 rounded-full ${status.dot}`} />
+              {status.label}
+            </span>
+          </div>
+        </div>
+      </a>
+
+      <div className="px-1 pt-5 md:px-2">
+        <Eyebrow>
+          Main project · <span lang="ja">主作</span>
+        </Eyebrow>
+        <h3 className="mt-3 font-display text-2xl font-bold leading-snug text-foreground md:text-4xl">
+          {project.name}
+        </h3>
+        <p className="mt-1.5 font-mono text-xs uppercase tracking-[0.16em] text-foreground/55">
+          {project.kind}
+        </p>
+        <p className="mt-3 max-w-2xl text-foreground/70 md:text-lg">
+          {project.blurb}
+        </p>
+
+        <div className="mt-5 flex flex-wrap items-center gap-x-5 gap-y-3">
+          <span className="rounded-full border border-accent/30 bg-accent/10 px-3 py-1 font-mono text-[11px] font-medium tracking-wider text-accent">
+            {project.metric}
+          </span>
+          <span className="flex items-center gap-2.5 text-foreground/55">
+            {project.tech.map((slug) => (
+              <ToolLogo
+                key={slug}
+                slug={slug}
+                label={TECH_ICONS[slug]?.title ?? slug}
+                className="h-4 w-4"
+              />
+            ))}
+          </span>
+          <a
+            href={project.href}
+            target="_blank"
+            rel="noreferrer noopener"
+            className="inline-flex items-center gap-1.5 text-sm font-semibold text-foreground/90 transition-colors hover:text-accent"
+          >
+            Visit project
+            <ArrowRight className="h-4 w-4" />
+          </a>
+          <CurtainLink
+            href={`/work#${project.code.toLowerCase()}`}
+            className="inline-flex items-center gap-1.5 text-sm font-semibold text-foreground/90 transition-colors hover:text-accent"
+          >
+            Read case study
+            <ArrowRight className="h-4 w-4" />
+          </CurtainLink>
+        </div>
+      </div>
+    </Reveal>
+  );
+}
+
 /**
  * The "View all work" call-to-action below the grid. GSAP-driven: it rises +
  * fades in as it scrolls into view, and its arrow glides on hover via a prebuilt
@@ -216,7 +307,11 @@ export function SelectedWork() {
           </p>
         </Reveal>
 
-        <RevealGroup className="mt-10 grid grid-cols-1 gap-5 md:mt-14 md:grid-cols-3 md:gap-6">
+        <div className="mt-10 md:mt-14">
+          <MainProjectCard project={mainProject} />
+        </div>
+
+        <RevealGroup className="mt-8 grid grid-cols-1 gap-5 md:mt-10 md:grid-cols-3 md:gap-6">
           {homeProjects.map((project) => (
             <div key={project.code}>
               <ProjectCard project={project} />

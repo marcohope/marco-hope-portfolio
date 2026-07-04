@@ -2,6 +2,10 @@
 // Pulled from resume.md — edit here to update the site.
 
 // Project media (static imports → next/image gets size + blur for free).
+import nsHome from "@/assets/about/nous-sommes-un/ns-home.png";
+import nsMenu from "@/assets/about/nous-sommes-un/ns-menu.png";
+import nsReservations from "@/assets/about/nous-sommes-un/ns-reservations.png";
+import nsAbout from "@/assets/about/nous-sommes-un/ns-about.png";
 import halixLanding from "@/assets/about/halix-solutions/halix-landingpage.png";
 import halixDashboard from "@/assets/about/halix-solutions/halix-dashboard.png";
 import halixTrend from "@/assets/about/halix-solutions/halix-trendreport-page.png";
@@ -54,6 +58,36 @@ export const profile = {
   // null → themed kanji tile); `images` is the full gallery. Each entry is
   // framed as Problem → Approach → Outcome → Reflection (draft copy — edit me).
   projects: [
+    {
+      code: "NS-007",
+      name: "Nous Sommes Un",
+      role: "Design + Build",
+      kind: "Restaurant Web Experience",
+      status: "live",
+      year: "2026",
+      featured: false,
+      blurb:
+        "A high-end restaurant site — Paris & Toronto — that sells atmosphere in seconds without sacrificing speed: cinematic, photography-heavy, and dark, built solo end-to-end with a full design-engineer pipeline.",
+      metric: "96 PERF · 100 A11Y/SEO",
+      href: "https://nous-sommes-un.vercel.app/",
+      repo: "https://github.com/marcohope/nous-sommes-un",
+      image: nsHome,
+      images: [nsHome, nsMenu, nsReservations, nsAbout],
+      tech: ["typescript", "nextjs", "react", "tailwind", "framer", "gsap", "figma"],
+      problem:
+        "High-end restaurants deserve websites that feel like the room itself, but most default to a generic template. The site had to sell atmosphere in seconds while staying fast, legible, and bookable on any device.",
+      approach: [
+        "Ran a structured design-engineer pipeline: researched luxury restaurant sites, wrote a problem statement, and set a design spec (typography, palette, logo) in Figma before any code.",
+        "Built on Next.js (App Router) + TypeScript + Tailwind, using Framer Motion for UI motion and reserving GSAP ScrollTrigger for the pinned, scrubbed scroll sequences Framer's primitives don't handle well.",
+        "Skipped a CMS and booking backend on purpose — a spec piece doesn't need infrastructure serving an editor that doesn't exist, so it ships fully static with nothing to break.",
+      ],
+      outcome: [
+        "Shipped a bilingual (EN/FR) six-route site — home, menu, reservations, about, FAQ, contact — with a full 3-step booking flow.",
+        "Hit Lighthouse 100 across accessibility, best practices, and SEO, with 96 performance on desktop despite a photography-heavy dark theme.",
+      ],
+      reflection:
+        "Running a Design Intent Interview with Claude Code before writing any code, then iterating UI/UX through many planning rounds, taught me to separate atmosphere from cost — every animation had to earn its place against a hard performance budget.",
+    },
     {
       code: "HX-001",
       name: "Halix Solutions",
@@ -352,6 +386,65 @@ export type CaseStudy = {
 };
 
 export const caseStudies: Record<string, CaseStudy> = {
+  "NS-007": {
+    outcome:
+      "A cinematic, photography-heavy restaurant site that still hits Lighthouse 100 across accessibility, best practices, and SEO — 96 performance on desktop, proving atmosphere and speed aren't a trade-off.",
+    team: "Solo — design & direction",
+    ai: {
+      tool: "Claude Code",
+      contribution:
+        "Ran a Design Intent Interview with Claude Code before writing any code, then directed it through scaffolding, animation, and polish — reviewing every diff and making every UX call myself.",
+    },
+    overview:
+      "Nous Sommes Un — French for 'we are one' — is a fictional high-end restaurant split across two dining rooms, Paris and Toronto. The brief I set myself: most luxury restaurant sites load like templates, and a five-star room should never feel like one. The site's whole pitch is atmosphere plus speed — cinematic and image-heavy, but instant to load — and that tension drove every decision, from the stack to the animation budget.",
+    sections: [
+      {
+        heading: "A written brief before a single line of code",
+        body: "I treated it like a real client brief, not a portfolio sketch. I researched what current luxury restaurant sites do well and where they fail, wrote a problem statement, and only then started brainstorming the restaurant itself — the name symbolizes unity and strength. Before touching Next.js I built a design spec in Figma: typography, colour, logo, visual language. The must-haves stayed non-negotiable throughout: menu, hours, locations, and reservations findable in seconds, a hamburger nav on mobile with one-tap location/email/social, and full SEO and metadata.",
+        points: [
+          "Researched competitor luxury-restaurant sites before any design work",
+          "Figma design spec — typography, palette, logo — preceded the build",
+          "Hard requirement: menu/hours/location/reservations findable in seconds, mobile-first nav",
+        ],
+      },
+      {
+        heading: "Directing Claude Code through a Design Intent Interview",
+        body: "Before Claude Code wrote anything, I gave it the full brief and ran it through a structured Design Intent Interview — iterating on UI/UX intent across many rounds of planning before any implementation. That kept the agent's output aimed at a specific feeling (atmosphere, restraint, premium pacing) instead of generic restaurant-template defaults. From there the build ran as a tracked pipeline: scaffold and dependencies, brand and content data, the shell (header, contact dropdown, mobile menu, footer, six routes), then a static home page built from 19 curated photos across five sections.",
+        points: [
+          "Design Intent Interview with Claude Code before any code was written",
+          "Tracked pipeline: scaffold → brand/data → shell → home → subpages → reservations → animation → SEO/a11y/perf",
+          "19 curated photos across 5 home sections",
+        ],
+      },
+      {
+        heading: "Framer Motion for UI, GSAP for the scroll choreography that needed it",
+        body: "The stack is Next.js (App Router) + TypeScript + Tailwind, with Framer Motion driving interface motion and GSAP ScrollTrigger brought in specifically for the pinned, scrubbed scroll sequences — Framer's scroll primitives aren't built for that. Next.js's static rendering and image optimization are why a photography-heavy dark site could still hit strong Lighthouse scores, which is exactly where most restaurant sites lose. TypeScript because the code is part of the portfolio and has to be inspectable, not just the finished page.",
+        points: [
+          "Next.js App Router + TypeScript + Tailwind",
+          "Framer Motion for UI motion, GSAP ScrollTrigger for pinned/scrubbed scroll sequences",
+          "Static rendering + image optimization carried the Lighthouse scores",
+        ],
+      },
+      {
+        heading: "No CMS, no booking backend — on purpose",
+        body: "It would have been easy to over-build this: a CMS for content, a real backend for reservations. I deliberately skipped both. A spec piece doesn't need infrastructure serving an editor that doesn't exist, so the three-step reservation flow — location, then date and time slots, then guest details — runs fully client-side with a frame-draw confirmation, and the whole site ships static with nothing to break in production. The bilingual EN/FR toggle got the same restraint: real content in both languages, not a translation-library stand-in.",
+        points: [
+          "3-step reservation flow — location → date/slots → details — with a frame-draw confirmation",
+          "Fully static: no CMS, no booking backend, nothing to break",
+          "EN / FR language toggle with real bilingual content, not machine translation",
+        ],
+      },
+      {
+        heading: "Where the numbers actually landed",
+        body: "After the animation pass — Lenis smooth scroll, parallax, a pinned gallery, a preloader, reduced-motion handling, and cleaning up ghost ScrollTriggers — I ran the SEO, accessibility, and performance pass: JSON-LD, sitemap, OG image, a full keyboard sweep. Lighthouse came back 100 on accessibility, best practices, and SEO, with 96 performance on desktop and roughly 85 on mobile for a dark, image-dense site. Then real refinements — bug fixes, parallax edge cases, the EN/FR toggle — before deploying live on Vercel.",
+        points: [
+          "Lighthouse: 100 a11y / best-practices / SEO, 96 perf desktop, ~85 mobile",
+          "Lenis smooth scroll, parallax, pinned gallery, preloader, reduced-motion throughout",
+          "Deployed live on Vercel — two fictional rooms, Paris and Toronto",
+        ],
+      },
+    ],
+  },
   "HX-001": {
     outcome:
       "From zero to a live, paying B2B AI SaaS — designed, built, and owned end-to-end as the sole technical owner.",
