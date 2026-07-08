@@ -18,6 +18,11 @@ import dlApps from "@/assets/about/deed-leisure/DL-apps.png";
 import dlLeads from "@/assets/about/deed-leisure/DL-Sample-Lead-List.png";
 import minoaNews1 from "@/assets/about/minoa/minoa-newsletter-1.png";
 import minoaNews2 from "@/assets/about/minoa/minoa-newsletter-2.png";
+import sixHero from "@/assets/about/6ix-aesthetics/six-hero.png";
+import sixTreatments from "@/assets/about/6ix-aesthetics/six-treatments.png";
+import sixResults from "@/assets/about/6ix-aesthetics/six-results.png";
+import sixClinic from "@/assets/about/6ix-aesthetics/six-clinic.png";
+import sixContact from "@/assets/about/6ix-aesthetics/six-contact.png";
 import fmRadio from "@/assets/about/fm-radio/irl-picture-of-radio.png";
 import plantSetup from "@/assets/about/plantproj/plantproj-setup-main.png";
 import plantFlow from "@/assets/about/plantproj/plantproj-flow-chart.png";
@@ -87,6 +92,36 @@ export const profile = {
       ],
       reflection:
         "Running a Design Intent Interview with Claude Code before writing any code, then iterating UI/UX through many planning rounds, taught me to separate atmosphere from cost — every animation had to earn its place against a hard performance budget.",
+    },
+    {
+      code: "6A-008",
+      name: "The 6ix Aesthetics",
+      role: "Design + Build",
+      kind: "Premium Med Spa Website",
+      status: "live",
+      year: "2026",
+      featured: false,
+      blurb:
+        "A premium med spa site for a fictional Toronto clinic, built to prove a “$30k agency” feel comes from restraint — one motion identity, generous whitespace, and a single conversion path. Fully static, Lighthouse 98 desktop.",
+      metric: "98 PERF · FULLY STATIC",
+      href: "https://6ix-aesthetics.vercel.app",
+      repo: "",
+      image: sixHero,
+      images: [sixHero, sixTreatments, sixResults, sixClinic, sixContact],
+      tech: ["typescript", "nextjs", "react", "tailwind", "gsap", "framer"],
+      problem:
+        "Med spa websites are stuck between two failure modes: outdated template builds — teal-and-gold clichés, star-rating carousels, “20% off Botox” urgency — and text-heavy pages that bury the booking action. Both undermine the one thing a med spa sells: trust in a premium, medical-grade experience.",
+      approach: [
+        "Set the thesis before any design: luxury is communicated through restraint — whitespace, one coherent motion language, quiet exclusivity over urgency, and performance smooth enough to never break the spell.",
+        "Built one motion identity, not scattered effects — all parallax on four named depth bands with consistent slow easings, plus a petal motif reused as a system primitive across markers, masks, glyphs, and page transitions.",
+        "Architected every page around a single conversion path to one CTA — “Book a Consultation” — with a draggable before/after slider, an interactive clinic map, and a validated form with a sticky mobile CTA.",
+      ],
+      outcome: [
+        "A complete multi-page site — home, treatments (with per-treatment pages), results, about, contact — that ships 100% static: 15 prerendered routes, zero server functions.",
+        "Lighthouse 98 desktop / 88 mobile, WCAG 2.1 AA, with prefers-reduced-motion disabling all parallax while keeping the opacity fades.",
+      ],
+      reflection:
+        "The discipline was subtraction: every animation had to earn its place against a hard performance budget, and the premium read came from what I left out — no countdown timers, no urgency, no template tells.",
     },
     {
       code: "HX-001",
@@ -441,6 +476,64 @@ export const caseStudies: Record<string, CaseStudy> = {
           "Lighthouse: 100 a11y / best-practices / SEO, 96 perf desktop, ~85 mobile",
           "Lenis smooth scroll, parallax, pinned gallery, preloader, reduced-motion throughout",
           "Deployed live on Vercel — two fictional rooms, Paris and Toronto",
+        ],
+      },
+    ],
+  },
+  "6A-008": {
+    outcome:
+      "A premium med spa site that reads as a “$30k agency” build — one motion identity, a single conversion path, and a fully static architecture that still hits Lighthouse 98 on desktop.",
+    team: "Solo — design & direction",
+    ai: {
+      tool: "Claude Code",
+      contribution:
+        "Set the brief and the motion system, then directed Claude Code through the build — reviewing every diff and making each design and compliance call myself.",
+    },
+    overview:
+      "The 6ix Aesthetics is a fictional Toronto med spa, built to make one argument: premium design doesn't have to be complicated. Most med spa sites fail in one of two ways — outdated template builds heavy with teal-and-gold clichés and “20% off” urgency, or text-heavy pages that bury the booking action. Both undermine the one thing a med spa actually sells: trust in a premium, medical-grade experience. My thesis was the inverse of the template playbook — luxury is communicated through restraint.",
+    sections: [
+      {
+        heading: "Restraint is the whole product",
+        body: "Most med spa sites betray themselves with urgency — countdown timers, star-rating carousels above the fold, “20% off Botox.” That playbook sells discounts, not trust, and trust is the only thing a premium clinic has to sell. So I inverted it: quiet exclusivity instead of pressure, generous whitespace instead of dense service grids, and one calm CTA — “Book a Consultation” — instead of a wall of offers. Every decision after that was a subtraction, not an addition.",
+        points: [
+          "Quiet exclusivity over urgency — no countdown timers, no “% off”",
+          "Generous whitespace as the primary luxury signal",
+          "A single calm CTA — “Book a Consultation” — never a discount",
+        ],
+      },
+      {
+        heading: "One motion identity, not scattered effects",
+        body: "The fastest way to look like a template is to bolt on unrelated animations. Instead I built a single motion language: all parallax runs on four named depth bands — background at 0.3x through floating elements at 1.15x — with the same slow easings (0.4 / 0.8 / 1.4s) everywhere. Nothing snaps or bounces; the motion is deliberate and unhurried, so it reads as part of the brand rather than decoration on top of it. GSAP + ScrollTrigger drives the scroll choreography, Framer Motion handles micro-interactions, and Lenis smooths the whole scroll.",
+        points: [
+          "Four named depth bands: background 0.3x → floating 1.15x",
+          "Consistent slow easings (0.4 / 0.8 / 1.4s) — nothing snaps",
+          "GSAP ScrollTrigger + Framer Motion + Lenis, one coherent system",
+        ],
+      },
+      {
+        heading: "A petal motif that makes it un-templatable",
+        body: "One shape does the structural work across the whole site. The petal shows up as section markers, image masks, list glyphs, and the page-transition mark — all derived from the same primitive. That's what separates a real design from a template: not a unique hero image, but a consistent visual grammar repeated with intent. Once the motif is a system instead of an ornament, the design can't be lifted onto another brand without falling apart.",
+        points: [
+          "Petal primitive → section markers, image masks, list glyphs, transitions",
+          "A repeated visual grammar, not one-off decoration",
+        ],
+      },
+      {
+        heading: "Conversion architecture over decoration",
+        body: "Premium doesn't mean precious — the site still has to book consultations. Every page funnels to the same action, and the interactions all serve it: a draggable before/after results slider, an interactive clinic map, and a validated consultation form with a sticky CTA on mobile so booking is never more than a thumb away. The treatment copy is suitability-aware and compliance-conscious — physician-directed language, illustrative-content disclosures — because a med spa is a medical context, not just a spa.",
+        points: [
+          "Single conversion path to one CTA on every page",
+          "Draggable before/after slider, interactive clinic map, sticky mobile CTA",
+          "Compliance-conscious, physician-directed treatment copy",
+        ],
+      },
+      {
+        heading: "Accessibility and speed are part of the luxury read",
+        body: "Jank breaks the premium spell, so performance was treated as a design feature, not a cleanup pass. The site ships 100% static — 15 prerendered routes with zero server functions, per-treatment pages generated at build time — on Next.js 16 (App Router, Turbopack), React 19, and Tailwind v4, with MapLibre GL powering the clinic map without an API-key dependency. Accessibility was a hard gate: WCAG 2.1 AA, full keyboard operability on the sliders and menus, and a prefers-reduced-motion path that disables every parallax while keeping the opacity fades. Lighthouse came back 98 on desktop and 88 on mobile.",
+        points: [
+          "100% static — 15 prerendered routes, zero server functions",
+          "Next.js 16 (Turbopack) · React 19 · Tailwind v4 · MapLibre GL",
+          "WCAG 2.1 AA, reduced-motion disables parallax, Lighthouse 98 / 88",
         ],
       },
     ],

@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, type ReactNode } from "react";
 import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 import gsap from "gsap";
@@ -42,6 +42,11 @@ const homeProjects = profile.projects.filter((p) => HOME_CODES.has(p.code));
 // curated grid above sitting below it as "more work."
 const MAIN_CODE = "NS-007";
 const mainProject = profile.projects.find((p) => p.code === MAIN_CODE)!;
+
+// The newest full case study, shown as a second hero directly under the main
+// project — same treatment, same size.
+const LATEST_CODE = "6A-008";
+const latestProject = profile.projects.find((p) => p.code === LATEST_CODE)!;
 
 function isExternal(href: string) {
   return /^https?:\/\//.test(href);
@@ -149,7 +154,15 @@ function ProjectCard({ project }: { project: Project }) {
 
 /** The lead project: a full-width cinematic banner, name/blurb/tech below,
  * and both an external "Visit" link and a "Read case study" link into /work. */
-function MainProjectCard({ project }: { project: Project }) {
+function MainProjectCard({
+  project,
+  eyebrow,
+  priority = false,
+}: {
+  project: Project;
+  eyebrow: ReactNode;
+  priority?: boolean;
+}) {
   const status = STATUS[project.status] ?? STATUS.shipped;
 
   return (
@@ -167,7 +180,7 @@ function MainProjectCard({ project }: { project: Project }) {
             fill
             sizes="(max-width: 768px) 100vw, 1024px"
             placeholder="blur"
-            priority
+            priority={priority}
             className="object-cover object-center transition duration-500 group-hover:scale-[1.03]"
           />
           <div className="absolute inset-x-0 top-0 flex items-center justify-between p-4">
@@ -183,9 +196,7 @@ function MainProjectCard({ project }: { project: Project }) {
       </a>
 
       <div className="px-1 pt-5 md:px-2">
-        <Eyebrow>
-          Main project · <span lang="ja">主作</span>
-        </Eyebrow>
+        <Eyebrow>{eyebrow}</Eyebrow>
         <h3 className="mt-3 font-display text-2xl font-bold leading-snug text-foreground md:text-4xl">
           {project.name}
         </h3>
@@ -307,8 +318,24 @@ export function SelectedWork() {
           </p>
         </Reveal>
 
-        <div className="mt-10 md:mt-14">
-          <MainProjectCard project={mainProject} />
+        <div className="mt-10 space-y-6 md:mt-14 md:space-y-8">
+          <MainProjectCard
+            project={mainProject}
+            eyebrow={
+              <>
+                Main project · <span lang="ja">主作</span>
+              </>
+            }
+            priority
+          />
+          <MainProjectCard
+            project={latestProject}
+            eyebrow={
+              <>
+                Latest build · <span lang="ja">新作</span>
+              </>
+            }
+          />
         </div>
 
         <RevealGroup className="mt-8 grid grid-cols-1 gap-5 md:mt-10 md:grid-cols-3 md:gap-6">
