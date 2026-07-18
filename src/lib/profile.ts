@@ -23,6 +23,11 @@ import sixTreatments from "@/assets/about/6ix-aesthetics/six-treatments.png";
 import sixResults from "@/assets/about/6ix-aesthetics/six-results.png";
 import sixClinic from "@/assets/about/6ix-aesthetics/six-clinic.png";
 import sixContact from "@/assets/about/6ix-aesthetics/six-contact.png";
+import roseHeroLit from "@/assets/about/field-of-roses/rose-hero-lit.png";
+import roseHeroDark from "@/assets/about/field-of-roses/rose-hero-dark.png";
+import roseSeasons from "@/assets/about/field-of-roses/rose-seasons.png";
+import roseQuotes from "@/assets/about/field-of-roses/rose-quotes.png";
+import roseLetters from "@/assets/about/field-of-roses/rose-letters.png";
 import fmRadio from "@/assets/about/fm-radio/irl-picture-of-radio.png";
 import plantSetup from "@/assets/about/plantproj/plantproj-setup-main.png";
 import plantFlow from "@/assets/about/plantproj/plantproj-flow-chart.png";
@@ -122,6 +127,36 @@ export const profile = {
       ],
       reflection:
         "The discipline was subtraction: every animation had to earn its place against a hard performance budget, and the premium read came from what I left out — no countdown timers, no urgency, no template tells.",
+    },
+    {
+      code: "FR-009",
+      name: "The Field of Roses",
+      role: "Design + Build",
+      kind: "Interactive Single-Page Experience",
+      status: "live",
+      year: "2026",
+      featured: false,
+      blurb:
+        "A quiet, single-page reminder that flowers — and people — bloom at different times: a night field of roses that glows where your cursor touches it. A designed object, not a product — no backend, no tracking, ~9 kB of page JavaScript.",
+      metric: "100 PERF · 100 A11Y",
+      href: "https://field-of-roses.vercel.app",
+      repo: "https://github.com/marcohope/field-of-roses",
+      image: roseHeroLit,
+      images: [roseHeroLit, roseHeroDark, roseSeasons, roseQuotes, roseLetters],
+      tech: ["typescript", "nextjs", "react", "tailwind"],
+      problem:
+        "People who feel behind measure themselves against everyone else's timeline. The site had to deliver one reassurance — your time to bloom will come — as a designed object: no backend, no tracking, nothing to buy.",
+      approach: [
+        "Built the hover-reveal hero from two layered photographs of the same rose field — dark and lit — with a radial CSS mask that follows the pointer, so visitors light up the field as they move through it.",
+        "Made the “Pick a rose” quote generator deal ten hand-picked quotes on patience from a shuffled deck — nothing repeats until every quote has been seen — with a crossfade reveal and one-tap copy.",
+        "Stayed deliberately dependency-light: scroll reveals via IntersectionObserver, animations in pure CSS, ~9 kB of page JavaScript on Next.js 15 + React 19 + Tailwind v4.",
+      ],
+      outcome: [
+        "Lighthouse 100 performance / 100 accessibility — prefers-reduced-motion throughout, aria-live quote announcements, semantic blockquote/cite markup, WCAG-AA contrast at every step.",
+        "Small details carry the tone: the tab title changes to “The field is still here.” when you leave, and a rose waits in the dev console.",
+      ],
+      reflection:
+        "The restraint is the point — one idea, told slowly. The palette came from the photography itself: near-black night, deep wine reds, rose pink, warm parchment.",
     },
     {
       code: "HX-001",
@@ -534,6 +569,59 @@ export const caseStudies: Record<string, CaseStudy> = {
           "100% static — 15 prerendered routes, zero server functions",
           "Next.js 16 (Turbopack) · React 19 · Tailwind v4 · MapLibre GL",
           "WCAG 2.1 AA, reduced-motion disables parallax, Lighthouse 98 / 88",
+        ],
+      },
+    ],
+  },
+  "FR-009": {
+    outcome:
+      "A single-page designed object that ships ~9 kB of JavaScript and hits Lighthouse 100 performance / 100 accessibility — proof that one idea, told slowly, can carry a whole site.",
+    team: "Solo — design & direction",
+    overview:
+      "The Field of Roses is a quiet, single-page reminder that flowers — and people — bloom at different times. I built it for anyone who feels behind: a night field of roses that glows where your cursor touches it, ten hand-picked quotes on patience, and nothing else. It's a designed object rather than a product — no backend, no tracking, nothing to buy — and every technical decision serves that restraint.",
+    sections: [
+      {
+        heading: "A designed object, not a product",
+        body: "Most encouragement online arrives wrapped in a funnel — a newsletter to join, a course to buy, a metric to move. This page refuses all of it. There's no backend, no tracking, and nothing for sale; the message is the whole product. That framing set the constraint for everything downstream: if a feature didn't help say 'your time to bloom will come' more quietly or more beautifully, it didn't ship. The result is closer to a printed keepsake than a web app — a page you visit when you need it, that asks nothing back.",
+        points: [
+          "No backend, no analytics, no conversion path — on purpose",
+          "One idea, told slowly, as the entire scope",
+        ],
+      },
+      {
+        heading: "Two photographs and a mask make the signature interaction",
+        body: "The hero is two layered photographs of the same rose field — one dark, one lit — with a radial CSS mask that follows the pointer. As visitors move through the field, they light it up themselves: the metaphor is the interaction. There's no WebGL, no canvas, no library — just a mask-image driven by two custom properties updated on pointermove. It's the site's whole thesis in one gesture: the field is already full of light; you just haven't moved through it yet.",
+        points: [
+          "Dark + lit photographs of the same field, layered",
+          "Radial CSS mask follows the pointer — no WebGL, no canvas",
+          "The visitor lights the field up — the metaphor is the interaction",
+        ],
+      },
+      {
+        heading: "Ten quotes, dealt like a deck",
+        body: "The 'Pick a rose' generator holds ten hand-picked quotes on patience and perseverance — scripture, Churchill, and other voices that have carried people through slow seasons. They deal from a shuffled deck, so nothing repeats until every quote has been seen, with a crossfade reveal and one-tap copy so a line can leave the page with you. Quote changes announce through an aria-live region, and the markup is semantic blockquote/cite — a quote generator that's honest about being one.",
+        points: [
+          "Shuffled-deck dealing — no repeats until all ten are seen",
+          "Crossfade reveal + one-tap copy",
+          "aria-live announcements, semantic blockquote/cite markup",
+        ],
+      },
+      {
+        heading: "Dependency-light on purpose",
+        body: "The stack is Next.js 15 (App Router), React 19, TypeScript, and Tailwind CSS v4 — and almost nothing else. Scroll reveals run on IntersectionObserver, animations are pure CSS, and the page ships roughly 9 kB of JavaScript. Accessibility was treated as a feature, not a pass: prefers-reduced-motion support throughout, WCAG-AA contrast at every step against a near-black ground. Lighthouse came back 100 performance and 100 accessibility — the quiet page is also the fast one.",
+        points: [
+          "Next.js 15 + React 19 + TypeScript + Tailwind v4",
+          "IntersectionObserver reveals, pure-CSS animation, ~9 kB page JS",
+          "Lighthouse 100 perf / 100 a11y, reduced-motion-aware throughout",
+        ],
+      },
+      {
+        heading: "The smallest details carry the tone",
+        body: "The palette is pulled from the photography itself — near-black night, deep wine reds, rose pink, warm parchment — with Cormorant Garamond as the editorial voice and Jost for structure. Then the details most visitors never notice: the tab title changes to 'The field is still here.' when you leave, a rose waits in the dev console for anyone who opens it, and even text selection and focus rings match the palette. None of it is necessary. All of it is the point — care, applied evenly, down to the corners nobody checks.",
+        points: [
+          "Palette sampled from the photographs: night, wine, rose, parchment",
+          "Cormorant Garamond for voice, Jost for structure",
+          "Tab title, console rose, selection + focus rings — all in-world",
         ],
       },
     ],
