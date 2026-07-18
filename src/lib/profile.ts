@@ -577,6 +577,11 @@ export const caseStudies: Record<string, CaseStudy> = {
     outcome:
       "A single-page designed object that ships ~9 kB of JavaScript and hits Lighthouse 100 performance / 100 accessibility — proof that one idea, told slowly, can carry a whole site.",
     team: "Solo — design & direction",
+    ai: {
+      tool: "Claude + Claude Code + GPT Image",
+      contribution:
+        "Designed with Claude and built by directing Claude Code — reviewing every diff and making every taste call myself. The rose-field imagery was generated with GPT Image.",
+    },
     overview:
       "The Field of Roses is a quiet, single-page reminder that flowers — and people — bloom at different times. I built it for anyone who feels behind: a night field of roses that glows where your cursor touches it, ten hand-picked quotes on patience, and nothing else. It's a designed object rather than a product — no backend, no tracking, nothing to buy — and every technical decision serves that restraint.",
     sections: [

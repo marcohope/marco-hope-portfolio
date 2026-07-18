@@ -45,7 +45,7 @@ const mainProject = profile.projects.find((p) => p.code === MAIN_CODE)!;
 
 // The newest full case study, shown as a second hero directly under the main
 // project — same treatment, same size.
-const LATEST_CODE = "6A-008";
+const LATEST_CODE = "FR-009";
 const latestProject = profile.projects.find((p) => p.code === LATEST_CODE)!;
 
 function isExternal(href: string) {
