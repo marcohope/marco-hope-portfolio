@@ -38,15 +38,17 @@ const STATUS: Record<string, { label: string; dot: string }> = {
 const HOME_CODES = new Set(["HX-001", "PF-003", "MN-004"]);
 const homeProjects = profile.projects.filter((p) => HOME_CODES.has(p.code));
 
-// The latest build leads the section as a full-width hero card, with the
-// curated grid above sitting below it as "more work."
-const MAIN_CODE = "NS-007";
-const mainProject = profile.projects.find((p) => p.code === MAIN_CODE)!;
-
-// The newest full case study, shown as a second hero directly under the main
-// project — same treatment, same size.
-const LATEST_CODE = "FR-009";
-const latestProject = profile.projects.find((p) => p.code === LATEST_CODE)!;
+// The flagship builds lead the section as full-width hero cards — main,
+// featured, latest — with the curated grid below sitting as "more work."
+const FEATURED: { code: string; label: string; kanji: string }[] = [
+  { code: "NS-007", label: "Main project", kanji: "主作" },
+  { code: "6A-008", label: "Featured build", kanji: "秀作" },
+  { code: "FR-009", label: "Latest build", kanji: "新作" },
+];
+const featuredProjects = FEATURED.map((f) => ({
+  ...f,
+  project: profile.projects.find((p) => p.code === f.code)!,
+}));
 
 function isExternal(href: string) {
   return /^https?:\/\//.test(href);
@@ -319,23 +321,18 @@ export function SelectedWork() {
         </Reveal>
 
         <div className="mt-10 space-y-6 md:mt-14 md:space-y-8">
-          <MainProjectCard
-            project={mainProject}
-            eyebrow={
-              <>
-                Main project · <span lang="ja">主作</span>
-              </>
-            }
-            priority
-          />
-          <MainProjectCard
-            project={latestProject}
-            eyebrow={
-              <>
-                Latest build · <span lang="ja">新作</span>
-              </>
-            }
-          />
+          {featuredProjects.map(({ code, label, kanji, project }, i) => (
+            <MainProjectCard
+              key={code}
+              project={project}
+              eyebrow={
+                <>
+                  {label} · <span lang="ja">{kanji}</span>
+                </>
+              }
+              priority={i === 0}
+            />
+          ))}
         </div>
 
         <RevealGroup className="mt-8 grid grid-cols-1 gap-5 md:mt-10 md:grid-cols-3 md:gap-6">
