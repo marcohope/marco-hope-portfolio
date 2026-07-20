@@ -1,7 +1,7 @@
 Marco Mateo Hope
-North York, ON | 343-558-0470 | marcomateohope@gmail.com halixsolutions.com | YouTube: @iburntokens
+North York, ON | 343-558-0470 | marcomateohope@gmail.com | halixsolutions.com | YouTube: @iburntokens
 Summary
-Computer Engineering student and technical co-founder who ships production software end-to-end by directing Artificial Intelligence (AI) coding agents. Built and launched a live Business-to-Business (B2B) Software-as-a-Service (SaaS) platform solo — owning product scope, architecture, security, and deployment — and can translate technical work for non-technical stakeholders.
+Computer Engineering student and co-founder who ships production software end-to-end by directing Artificial Intelligence (AI) coding agents. Co-founded a live custom AI automation studio for social-media marketing agencies — leading the design and front-end across the marketing site and client-facing systems, and sharing client research and workflow design with my co-founder — and can translate technical work for non-technical stakeholders.
 Technical Skills
 * Languages: Python, HTML, CSS, Structured Query Language (SQL)
 * AI-Assisted Development: Ship production TypeScript, JavaScript, React, and Next.js codebases by directing AI coding agents (Claude Code) — owning architecture, review, and technical decisions
@@ -11,17 +11,16 @@ Technical Skills
 * Security & Practices: Open Web Application Security Project (OWASP) audits, rate limiting, secure-by-default permissions, Software Development Life Cycle (SDLC), Agile
 * Design: User Interface (UI)/User Experience (UX) design, Figma, wireframing, responsive web design
 Experience
-Co-Founder (Technical) — Halix Solutions
-AI-powered B2B SaaS platform for digital marketing agencies — Remote / Toronto, ON 2025 – Present
+Co-Founder (Design & Front-End) — Halix Solutions
+Custom AI automation studio for social-media marketing agencies — Remote / Toronto, ON 2025 – Present
 
 
 
 
-* Architected and shipped a full-stack web application from zero to a live, paying product as the sole technical owner, directing AI coding agents (Claude Code) to build the entire codebase across a marketing site and authenticated multi-tenant workspace.
-* Engineered the frontend with Next.js (App Router), React, TypeScript, Tailwind CSS, and shadcn/ui, delivering a responsive, production-grade User Interface (UI) without an engineering team.
-* Designed the backend and data layer on Supabase (PostgreSQL, Auth, Row-Level Security), orchestrating background jobs with Inngest to power a multi-stage Large Language Model (LLM) research pipeline.
-* Integrated Stripe billing with subscription tiers and usage-based token-pack pricing via webhooks; deployed on Vercel with automated test and security gates plus database migrations in Continuous Integration/Continuous Deployment (CI/CD).
-* Built AI product features including competitor intent-gap analysis and automated trend reports, owning prompt design and the end-to-end LLM analysis flow, and hardened security through Open Web Application Security Project (OWASP)-style audits, rate limiting, Row-Level Security (RLS) policies, and secure-by-default function permissions.
+* Co-founded and helped take a custom AI automation studio from zero to a live product, leading the design and front-end across the marketing site and client-facing systems by directing AI coding agents (Claude Code).
+* Engineered the front-end with Next.js (App Router), React, TypeScript, and Tailwind CSS, turning client research into demos and Vercel-deployed prototypes, then iterating to production-grade User Interface (UI) against UI/UX best practices and client direction.
+* Co-ran client discovery and workflow design with my co-founder — mapping each agency's operations to scope the automations that cut their non-creative work — and delivered tailored, modular systems on a modern stack (PostgreSQL, Python).
+* Built Artificial Intelligence (AI)-driven back-office automations — lead discovery, scoring, outbound, and reporting — integrating any Application Programming Interface (API)-accessible service (Gmail, Apify, Deepgram, Mail Meteor, Stripe) with the Large Language Model (LLM) chosen per system, keeping client-facing creative work human.
 Python/AI Scraper & Sales Intern — Deeds Leisure
 Remote / Toronto, ON Jan 2026 – Mar 2026
 
@@ -66,7 +65,7 @@ Marco Hope
 
 
 Computer Engineering Student @ York University
-Founder @ Halix Solutions
+Co-Founder @ Halix Solutions
 
 
 Passion in Artifical Intelligence, Web Development, and Content Creation
