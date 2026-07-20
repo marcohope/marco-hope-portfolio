@@ -13,36 +13,33 @@ import { Eyebrow } from "@/components/ui/eyebrow";
 import { ToolLogo } from "@/components/tech/ToolLogo";
 import { TECH_ICONS } from "@/components/tech/tech-icons.generated";
 import { CurtainLink } from "@/components/transition/CurtainLink";
-import { Reveal, RevealGroup } from "@/components/site/reveal";
+import { Reveal } from "@/components/site/reveal";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
 type Project = (typeof profile.projects)[number];
-
-// Per-project kanji for the fallback cover tile (only shown if a project has no
-// real screenshot). Keeps the card on-brand with the /work "star catalogue".
-const KANJI: Record<string, string> = {
-  "HX-001": "創", // found / create
-  "PF-003": "雅", // miyabi — elegance / refinement (this site)
-  "DL-002": "集", // gather (lead-gen)
-};
 
 const STATUS: Record<string, { label: string; dot: string }> = {
   live: { label: "Live", dot: "bg-accent" },
   shipped: { label: "Shipped", dot: "bg-gold" },
 };
 
-// The home grid is a curated subset — the strongest product-UI work, in
-// catalogue order. The full catalogue (incl. the hardware / IRL builds) lives
-// on /work.
-const HOME_CODES = new Set(["HX-001", "PF-003", "MN-004"]);
-const homeProjects = profile.projects.filter((p) => HOME_CODES.has(p.code));
-
-// The flagship builds lead the section as full-width hero cards — main,
-// featured, latest — with the curated grid below sitting as "more work."
-const FEATURED: { code: string; label: string; kanji: string }[] = [
-  { code: "NS-007", label: "Main project", kanji: "主作" },
+// The five flagship builds carry the whole section as full-width hero cards, in
+// this deliberate order (Halix leads). The full catalogue — incl. Minoa and the
+// hardware / IRL builds — lives on /work. `visit` false = the project's live URL
+// is this very site, so the card links its image to the case study instead of
+// out; `caseStudy` true adds a "Read case study" action into /work.
+const FEATURED: {
+  code: string;
+  label: string;
+  kanji: string;
+  visit?: boolean;
+  caseStudy?: boolean;
+}[] = [
+  { code: "HX-001", label: "Main project", kanji: "主作", caseStudy: true },
   { code: "6A-008", label: "Featured build", kanji: "秀作" },
+  { code: "NS-007", label: "Signature build", kanji: "名作" },
+  { code: "PF-003", label: "This very site", kanji: "雅", visit: false, caseStudy: true },
   { code: "FR-009", label: "Latest build", kanji: "新作" },
 ];
 const featuredProjects = FEATURED.map((f) => ({
@@ -50,152 +47,65 @@ const featuredProjects = FEATURED.map((f) => ({
   project: profile.projects.find((p) => p.code === f.code)!,
 }));
 
-function isExternal(href: string) {
-  return /^https?:\/\//.test(href);
-}
-
-/** A single project card: real screenshot if provided, else a themed cover tile. */
-function ProjectCard({ project }: { project: Project }) {
-  const status = STATUS[project.status] ?? STATUS.shipped;
-
-  const body = (
-    <>
-      <div className="relative aspect-[16/10] overflow-clip rounded-lg border border-border/60">
-        {project.image ? (
-          <Image
-            src={project.image}
-            alt={`${project.name} — ${project.kind}`}
-            fill
-            sizes="(max-width: 768px) 100vw, (max-width: 1024px) 33vw, 340px"
-            placeholder="blur"
-            className="object-cover object-center transition duration-500 group-hover:scale-[1.04]"
-          />
-        ) : (
-          // Fallback cover: gradient ground + giant faint kanji.
-          <div className="relative h-full w-full bg-gradient-to-br from-elevated/80 via-surface/50 to-background/40 transition duration-500 group-hover:scale-[1.04]">
-            <span
-              aria-hidden
-              lang="ja"
-              className="pointer-events-none absolute -right-2 bottom-[-1.5rem] select-none font-display text-[9rem] leading-none text-foreground/[0.07]"
-            >
-              {KANJI[project.code] ?? project.name.charAt(0)}
-            </span>
-          </div>
-        )}
-
-        {/* Top row: mono code + status pill. */}
-        <div className="absolute inset-x-0 top-0 flex items-center justify-between p-3">
-          <span className="rounded-md bg-background/55 px-2 py-1 font-mono text-[0.7rem] tracking-wider text-gold backdrop-blur-sm">
-            {project.code}
-          </span>
-          <span className="inline-flex items-center gap-1.5 rounded-full bg-background/55 px-2.5 py-1 text-[0.7rem] font-medium text-foreground/85 backdrop-blur-sm">
-            <span aria-hidden className={`h-1.5 w-1.5 rounded-full ${status.dot}`} />
-            {status.label}
-          </span>
-        </div>
-
-        {/* Bottom row: headline metric. */}
-        <div className="absolute inset-x-0 bottom-0 p-3">
-          <span className="rounded-md bg-background/55 px-2 py-1 font-mono text-[0.7rem] tracking-wider text-foreground/85 backdrop-blur-sm">
-            {project.metric}
-          </span>
-        </div>
-      </div>
-
-      <div className="flex flex-1 flex-col px-1 pt-4">
-        <p className="font-mono text-[0.7rem] uppercase tracking-[0.18em] text-foreground/55">
-          {project.kind}
-        </p>
-        <h3 className="mt-1.5 font-display text-xl font-semibold leading-snug text-foreground md:text-2xl">
-          {project.name}
-        </h3>
-        <p className="mt-2 line-clamp-2 text-sm text-foreground/70">
-          {project.blurb}
-        </p>
-
-        <div className="mt-4 flex items-center gap-2.5">
-          {project.tech.slice(0, 5).map((slug) => (
-            <ToolLogo
-              key={slug}
-              slug={slug}
-              label={TECH_ICONS[slug]?.title ?? slug}
-              className="h-4 w-4"
-            />
-          ))}
-        </div>
-
-        <span className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-foreground/90 transition-colors group-hover:text-accent">
-          {isExternal(project.href) ? "Visit project" : "Read more"}
-          <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" />
-        </span>
-      </div>
-    </>
-  );
-
-  const cardClass =
-    "washi washi-hover group flex h-full flex-col overflow-hidden p-4";
-
-  return isExternal(project.href) ? (
-    <a
-      href={project.href}
-      target="_blank"
-      rel="noreferrer noopener"
-      className={cardClass}
-    >
-      {body}
-    </a>
-  ) : (
-    <CurtainLink
-      href={`/work#${project.code.toLowerCase()}`}
-      className={cardClass}
-    >
-      {body}
-    </CurtainLink>
-  );
-}
-
-/** The lead project: a full-width cinematic banner, name/blurb/tech below,
- * and both an external "Visit" link and a "Read case study" link into /work. */
+/** A flagship build: a full-width cinematic banner with name/blurb/tech below.
+ * `visit` renders an external "Visit project" link (and wires the banner to it);
+ * `caseStudy` adds a "Read case study" link into /work. A card with neither
+ * would be inert, so when `visit` is off the banner falls back to the case study. */
 function MainProjectCard({
   project,
   eyebrow,
   priority = false,
+  visit = true,
+  caseStudy = false,
 }: {
   project: Project;
   eyebrow: ReactNode;
   priority?: boolean;
+  visit?: boolean;
+  caseStudy?: boolean;
 }) {
   const status = STATUS[project.status] ?? STATUS.shipped;
+  const caseHref = `/work#${project.code.toLowerCase()}`;
+
+  const banner = (
+    <div className="relative aspect-[16/9] overflow-clip rounded-xl border border-border/60 md:aspect-[21/9]">
+      <Image
+        src={project.image}
+        alt={`${project.name} — ${project.kind}`}
+        fill
+        sizes="(max-width: 768px) 100vw, 1024px"
+        placeholder="blur"
+        priority={priority}
+        className="object-cover object-center transition duration-500 group-hover:scale-[1.03]"
+      />
+      <div className="absolute inset-x-0 top-0 flex items-center justify-between p-4">
+        <span className="rounded-md bg-background/55 px-2.5 py-1 font-mono text-xs tracking-wider text-gold backdrop-blur-sm">
+          {project.code}
+        </span>
+        <span className="inline-flex items-center gap-1.5 rounded-full bg-background/55 px-3 py-1 text-xs font-medium text-foreground/85 backdrop-blur-sm">
+          <span aria-hidden className={`h-1.5 w-1.5 rounded-full ${status.dot}`} />
+          {status.label}
+        </span>
+      </div>
+    </div>
+  );
 
   return (
     <Reveal className="washi washi-hover group overflow-hidden p-4 md:p-5">
-      <a
-        href={project.href}
-        target="_blank"
-        rel="noreferrer noopener"
-        className="block"
-      >
-        <div className="relative aspect-[16/9] overflow-clip rounded-xl border border-border/60 md:aspect-[21/9]">
-          <Image
-            src={project.image}
-            alt={`${project.name} — ${project.kind}`}
-            fill
-            sizes="(max-width: 768px) 100vw, 1024px"
-            placeholder="blur"
-            priority={priority}
-            className="object-cover object-center transition duration-500 group-hover:scale-[1.03]"
-          />
-          <div className="absolute inset-x-0 top-0 flex items-center justify-between p-4">
-            <span className="rounded-md bg-background/55 px-2.5 py-1 font-mono text-xs tracking-wider text-gold backdrop-blur-sm">
-              {project.code}
-            </span>
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-background/55 px-3 py-1 text-xs font-medium text-foreground/85 backdrop-blur-sm">
-              <span aria-hidden className={`h-1.5 w-1.5 rounded-full ${status.dot}`} />
-              {status.label}
-            </span>
-          </div>
-        </div>
-      </a>
+      {visit ? (
+        <a
+          href={project.href}
+          target="_blank"
+          rel="noreferrer noopener"
+          className="block"
+        >
+          {banner}
+        </a>
+      ) : (
+        <CurtainLink href={caseHref} className="block">
+          {banner}
+        </CurtainLink>
+      )}
 
       <div className="px-1 pt-5 md:px-2">
         <Eyebrow>{eyebrow}</Eyebrow>
@@ -223,22 +133,26 @@ function MainProjectCard({
               />
             ))}
           </span>
-          <a
-            href={project.href}
-            target="_blank"
-            rel="noreferrer noopener"
-            className="inline-flex items-center gap-1.5 text-sm font-semibold text-foreground/90 transition-colors hover:text-accent"
-          >
-            Visit project
-            <ArrowRight className="h-4 w-4" />
-          </a>
-          <CurtainLink
-            href={`/work#${project.code.toLowerCase()}`}
-            className="inline-flex items-center gap-1.5 text-sm font-semibold text-foreground/90 transition-colors hover:text-accent"
-          >
-            Read case study
-            <ArrowRight className="h-4 w-4" />
-          </CurtainLink>
+          {visit && (
+            <a
+              href={project.href}
+              target="_blank"
+              rel="noreferrer noopener"
+              className="inline-flex items-center gap-1.5 text-sm font-semibold text-foreground/90 transition-colors hover:text-accent"
+            >
+              Visit project
+              <ArrowRight className="h-4 w-4" />
+            </a>
+          )}
+          {caseStudy && (
+            <CurtainLink
+              href={caseHref}
+              className="inline-flex items-center gap-1.5 text-sm font-semibold text-foreground/90 transition-colors hover:text-accent"
+            >
+              Read case study
+              <ArrowRight className="h-4 w-4" />
+            </CurtainLink>
+          )}
         </div>
       </div>
     </Reveal>
@@ -295,10 +209,10 @@ function ViewAllCTA() {
 }
 
 /**
- * Selected-work showcase for the home page — a three-card grid of the strongest
- * product-UI builds, modelled on a featured-posts layout: a title + description
- * header, then the cards, which stagger in on scroll (GSAP + ScrollTrigger). A
- * GSAP "View all work" CTA closes the section into the /work catalogue.
+ * Selected-work showcase for the home page — five full-width flagship hero cards
+ * (Halix leads), each a cinematic banner with name/blurb/tech and its actions,
+ * revealing in on scroll (GSAP + ScrollTrigger). A GSAP "View all work" CTA
+ * closes the section into the /work catalogue.
  *
  * Themed to the sakura day/night system (washi cards, gold mono codes,
  * font-display headings) and driven by the real `profile.projects` catalogue.
@@ -315,13 +229,13 @@ export function SelectedWork() {
             Selected work.
           </h2>
           <p className="mt-3 max-w-xl text-foreground/70">
-            A few things I&rsquo;ve designed &amp; shipped — from a live, paying
-            B2B SaaS to this very site.
+            A few things I&rsquo;ve designed &amp; shipped — from a custom AI
+            automation studio to this very site.
           </p>
         </Reveal>
 
         <div className="mt-10 space-y-6 md:mt-14 md:space-y-8">
-          {featuredProjects.map(({ code, label, kanji, project }, i) => (
+          {featuredProjects.map(({ code, label, kanji, project, visit, caseStudy }, i) => (
             <MainProjectCard
               key={code}
               project={project}
@@ -331,17 +245,11 @@ export function SelectedWork() {
                 </>
               }
               priority={i === 0}
+              visit={visit ?? true}
+              caseStudy={caseStudy ?? false}
             />
           ))}
         </div>
-
-        <RevealGroup className="mt-8 grid grid-cols-1 gap-5 md:mt-10 md:grid-cols-3 md:gap-6">
-          {homeProjects.map((project) => (
-            <div key={project.code}>
-              <ProjectCard project={project} />
-            </div>
-          ))}
-        </RevealGroup>
       </div>
 
       <ViewAllCTA />

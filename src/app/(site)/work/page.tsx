@@ -23,7 +23,7 @@ const liteProjects = profile.projects.filter(
 export const metadata: Metadata = {
   title: "Work",
   description:
-    "Selected case studies: Nous Sommes Un (a cinematic restaurant site), The 6ix Aesthetics (a premium med spa site), The Field of Roses (a quiet single-page experience), Halix Solutions (B2B AI SaaS), this motion-led portfolio, a Shopify UX/SEO audit for Minoa Home, and a Python/Electron lead-gen tool.",
+    "Selected case studies: Nous Sommes Un (a cinematic restaurant site), The 6ix Aesthetics (a premium med spa site), The Field of Roses (a quiet single-page experience), Halix Solutions (a custom AI automation studio for marketing agencies), this motion-led portfolio, a Shopify UX/SEO audit for Minoa Home, and a Python/Electron lead-gen tool.",
   alternates: { canonical: "/work" },
 };
 

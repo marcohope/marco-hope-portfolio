@@ -45,12 +45,12 @@ export const posts: readonly Post[] = [
     draft: true,
   },
   {
-    slug: "halix-zero-to-one-solo",
-    title: "Taking a SaaS from 0 to 1, solo",
+    slug: "halix-zero-to-one",
+    title: "Taking Halix from 0 to 1",
     summary:
-      "Sole technical owner of a live, paying B2B product — two surfaces, one design system, and the parts of the job that aren't code.",
+      "Building a custom automation studio for agencies — the design-and-front-end craft, and the parts of a 0-to-1 that aren't code.",
     date: "2026-05-28",
-    readingMinutes: 6,
+    readingMinutes: 5,
     tags: ["Case study", "0 → 1", "Product"],
     draft: true,
   },

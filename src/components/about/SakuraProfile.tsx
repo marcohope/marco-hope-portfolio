@@ -63,8 +63,8 @@ export function SakuraProfile() {
             premium brands.
           </p>
           <p className="hero-ink-soft text-lg text-foreground/75 md:text-xl">
-            Design engineer · Computer Engineering @ York · built Halix, a live
-            AI SaaS
+            Design engineer · Computer Engineering @ York · co-founder of Halix,
+            an AI automation studio
           </p>
           <p className="font-mono text-sm uppercase tracking-[0.24em] text-foreground/55">
             {profile.location}

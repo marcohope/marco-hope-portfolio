@@ -8,4 +8,4 @@ export const SITE_URL = "https://marcohope.com";
 export const SITE_NAME = "Marco Hope";
 export const SITE_TAGLINE = "Design Engineer";
 export const SITE_DESCRIPTION =
-  "I design and build high-craft, motion-led websites and product UI for startups and premium brands. Design engineer fluent in UI/UX, Next.js, and motion — built Halix, a live, paying AI SaaS.";
+  "I design and build high-craft, motion-led websites and product UI for startups and premium brands. Design engineer fluent in UI/UX, Next.js, and motion — co-founder of Halix, a live AI automation studio for marketing agencies.";

@@ -50,7 +50,7 @@ export const profile = {
 
   // Two-paragraph bio (used on /about).
   bio: [
-    "I build websites and product interfaces for founders and brands who care how a thing feels — motion and interaction that's actually correct: fast, accessible, reduced-motion-aware, and engineered, not just flashy. Most of that craft has gone into Halix Solutions, a live, paying B2B AI SaaS, where I own the full UI/UX across the marketing site and the in-app workspace and contribute across full-stack and go-to-market.",
+    "I build websites and product interfaces for founders and brands who care how a thing feels — motion and interaction that's actually correct: fast, accessible, reduced-motion-aware, and engineered, not just flashy. Most of that craft has gone into Halix Solutions, a live custom AI automation studio for marketing agencies I co-founded, where I lead the design and front-end across the marketing site and the client-facing systems, and share the client research and workflow with my co-founder.",
     "I ship production software end-to-end by directing AI coding agents, and I care about UI/UX craft and translating technical work for non-technical stakeholders.",
     "I came to the web from the hardware side — a from-scratch FM radio, a closed-loop plant-waterer — and that habit of caring how a thing actually works, down to the wiring, is still how I approach an interface.",
   ],
@@ -161,14 +161,14 @@ export const profile = {
     {
       code: "HX-001",
       name: "Halix Solutions",
-      role: "Co-Founder · Technical",
-      kind: "B2B AI SaaS Platform",
+      role: "Co-Founder · Design & Front-End",
+      kind: "Custom AI Automation Studio",
       status: "live",
       year: "2025 — Present",
       featured: true,
       blurb:
-        "An AI-powered B2B SaaS for digital marketing agencies — taken from zero to a live, paying product. I owned the full UI/UX and contributed across full-stack and go-to-market as a technical co-founder.",
-      metric: "0 → 1 · FULL UI/UX",
+        "A custom AI automation studio for social-media marketing agencies — it automates the back-office busywork so the client-facing creative stays human. Co-founded with Joshua Ali; I lead the design and front-end, and we share the client research and workflow.",
+      metric: "0 → 1 · UI/UX + FRONT-END",
       href: "https://halixsolutions.com",
       repo: "",
       image: halixLanding,
@@ -181,20 +181,20 @@ export const profile = {
         halixSettings,
         halixSignin,
       ],
-      tech: ["typescript", "nextjs", "react", "supabase", "stripe", "tailwind"],
+      tech: ["figma", "typescript", "nextjs", "react", "tailwind", "python", "postgres", "vercel"],
       problem:
-        "Digital marketing agencies burn hours on manual market research and trend analysis, with no affordable tool to turn raw signals into client-ready insight at scale.",
+        "Social-media marketing agencies lose hours to back-office busywork — lead discovery, scoring, outbound, reporting — non-creative work that scales badly and pulls focus off the client-facing craft that actually sells the agency. Off-the-shelf tools never fit any one agency's workflow.",
       approach: [
-        "Owned the full UI/UX — the marketing site and the authenticated, multi-tenant workspace — from flows and wireframes to the visual system and component library.",
-        "Contributed across the full stack, directing AI coding agents (Claude Code) to build features on Next.js and Supabase (Postgres, Auth, Row-Level Security), with Stripe billing wired via webhooks.",
-        "Shaped brand and go-to-market — the landing narrative, positioning, and marketing assets.",
+        "Co-run the discovery with my co-founder: client meetings that map each agency's workflow and pin down exactly which automations their business needs.",
+        "Lead the design and front-end — turning that research into a demo that shows the client what the automation looks like, UI and all, then iterating it into a working prototype deployed on Vercel against UI/UX best practices and the client's direction.",
+        "Ship a fully tailored, modular system on a modern stack — Next.js, React, Tailwind, TypeScript up front, PostgreSQL and Python behind it — wired to whatever the workflow needs (Gmail, Apify, Deepgram, Mail Meteor, any API), with the LLM chosen per system.",
       ],
       outcome: [
-        "Helped take the product from 0 → 1: a live, paying B2B SaaS.",
-        "Delivered one cohesive design system spanning the marketing site and the in-app workspace.",
+        "Live, client-owned systems deployed on their own subdomain that cut the non-creative work, with ongoing monitoring and iteration.",
+        "One cohesive design language across the marketing site and the client-facing tools — automation that still feels considered, not bolted on.",
       ],
       reflection:
-        "Co-founding meant wearing several hats — design, full-stack, and marketing — and learning to make pragmatic trade-offs under real constraints alongside a small team.",
+        "The discipline is drawing the line in the right place: automate the busywork, never the creative a client's customers actually see. Co-founding means splitting by strength — Josh and I both sit in the research and shape the workflow, and I take the design and front-end from there.",
     },
     {
       code: "PF-003",
@@ -351,9 +351,9 @@ export const profile = {
   journey: [
     {
       period: "2025 — Present",
-      title: "Co-Founder · Technical",
+      title: "Co-Founder · Design & Front-End",
       org: "Halix Solutions",
-      note: "Owned full UI/UX, plus full-stack & marketing on a live, paying B2B AI SaaS.",
+      note: "Lead design & front-end for a live custom AI automation studio for marketing agencies; co-own client research & workflow.",
     },
     {
       period: "Jan — Mar 2026",
@@ -633,55 +633,52 @@ export const caseStudies: Record<string, CaseStudy> = {
   },
   "HX-001": {
     outcome:
-      "From zero to a live, paying B2B AI SaaS — designed, built, and owned end-to-end as the sole technical owner.",
-    team: "Sole technical owner — no separate engineering team",
+      "A custom AI automation studio for marketing agencies, taken live — I lead the design and front-end across the marketing site and the client-facing systems, and share the client research and workflow with my co-founder.",
+    team: "Co-founded with Joshua Ali — I lead design & front-end; we share the client research and workflow.",
     ai: {
       tool: "Claude Code",
       contribution:
-        "Directed Claude Code across the entire codebase while owning the architecture, reviewing every diff, and making each technical decision myself.",
+        "Built the interfaces and systems I designed by directing Claude Code — owning the design and front-end and reviewing every diff.",
     },
     overview:
-      "Halix Solutions is an AI-powered B2B SaaS for digital marketing agencies. As technical co-founder, I took it from zero to a live, paying product — and I was the sole technical owner, with no separate engineering team behind me. I owned the full UI/UX across two surfaces: the public marketing site and the authenticated, multi-tenant in-app workspace. Behind the interface sit a multi-stage LLM research pipeline, Stripe billing, and security hardening. The stakes were plain: ship something agencies would actually pay for, then keep it running in production.",
+      "Halix Solutions is a custom AI automation studio for social-media marketing agencies, co-founded with Joshua Ali. The premise is one line: the creative stays human, the busywork doesn't. Agencies keep the content, design, and strategy their clients can see; we automate the back-office grind behind it — lead discovery and scoring, outbound, reporting, the workflows that scale badly by hand. Josh and I both sit in the client research and shape each workflow; I lead the design and front-end, from the marketing site to the systems the client actually uses.",
     sections: [
       {
-        heading: "Sole technical owner, directing the agents that wrote the code",
-        body: "I built the entire codebase without a separate engineering team. The model: I directed AI coding agents (Claude Code) and owned the parts that don't delegate — architecture, code review, and every technical decision. The agents typed; I decided what got typed and what got rejected. That meant reading every diff, drawing the system boundaries, and choosing the stack. Next.js (App Router), React, TypeScript, Tailwind, and shadcn/ui on the front; Supabase for Postgres, Auth, and Row-Level Security behind it. It's a different way to ship software, and it scales one person across a full product without lowering the bar on what actually merges.",
+        heading: "The creative stays human. The busywork doesn't.",
+        body: "The whole studio runs on one boundary: AI shouldn't touch the work an agency's clients can see. Content, graphics, strategy, brand voice — that stays human. Everything behind it — lead discovery, scoring and filtering, outbound personalization, follow-ups, weekly reporting — gets a system. That line isn't just positioning; it's the design constraint. Every automation we build has to earn its keep by staying firmly on the back-office side of it, so an agency's craft is amplified, never replaced.",
         points: [
-          "Architecture, code review, and technical calls stayed with me",
-          "Frontend: Next.js, React, TypeScript, Tailwind, shadcn/ui",
-          "Data layer: Supabase — Postgres, Auth, Row-Level Security",
+          "Client-facing creative stays human; back-office busywork gets automated",
+          "The boundary is the product — and the design constraint",
         ],
       },
       {
-        heading: "Two surfaces, one design system",
-        body: "The product lives in two places: a public marketing site that has to sell, and an authenticated, multi-tenant workspace that has to work. I owned the UI/UX for both — user flows, wireframes, the visual system, and a reusable component library shared across them. One token set, one component vocabulary, so a button on the landing page and a button inside the app read as the same product. Multi-tenant meant designing for accounts, not just users: clean separation of who sees what, with Row-Level Security enforcing that boundary underneath the interface rather than trusting the UI to hide it.",
+        heading: "Research first, then a demo they can actually see",
+        body: "Nothing gets built off a guess. Josh and I run the discovery together — client meetings that map an agency's real workflow and surface exactly which automations their business needs. From there I take the design and front-end: the research becomes a demo that shows the client what the automation will look like, UI and all, so an abstract ‘we’ll automate your outreach’ turns into something concrete they can react to before a line of production code exists.",
         points: [
-          "Flows and wireframes through to the visual system",
-          "One reusable component library across both surfaces",
-          "Multi-tenant separation backed by RLS, not just UI state",
+          "Client meetings map the workflow and pin down what to automate",
+          "Research becomes a visual demo — the UI makes the automation concrete",
         ],
       },
       {
-        heading: "A research pipeline with no research team behind it",
-        body: "The core feature is automated market research: competitor intent-gap analysis and trend reports, built for agencies who'd otherwise do this work by hand. Under the hood it's a multi-stage LLM pipeline — background jobs orchestrated with Inngest so long-running analysis doesn't block a request, writing results into Supabase. I designed the prompts and the end-to-end analysis flow: how raw signals move through each stage and come out as a client-ready report. The hard part was never calling a model once. It was staging the work so it stays reliable when a single job runs long.",
+        heading: "Demo → working prototype on Vercel",
+        body: "Once the demo lands, I iterate it into a working prototype deployed on Vercel — the point where the client can click through the real thing, not a mockup. That loop is where the UI/UX work concentrates: I research best practices for each surface and fold in the client's direction, so the software ends up as the client intended rather than as the default the tools nudge you toward. Iterating in the open, against a live URL, keeps the feedback honest and the direction correct.",
         points: [
-          "Inngest orchestrates multi-stage background jobs",
-          "Owned prompt design and the full LLM analysis flow",
-          "Outputs: competitor intent-gap analysis and automated trend reports",
+          "Prototype deployed live on Vercel — clickable, not a mockup",
+          "UI/UX best practices plus the client's direction on every surface",
         ],
       },
       {
-        heading: "Billing and security weren't an afterthought",
-        body: "Money and safety are easy to skip in a 0-to-1 and expensive to retrofit, so I wired both in early. Billing runs on Stripe — subscription tiers plus usage-based token-pack pricing, kept in sync through webhooks. Security got real attention: OWASP-style audits, rate limiting, Row-Level Security policies, and secure-by-default function permissions, so the database refuses bad access instead of trusting the app to ask politely. It all ships through Vercel with CI/CD that runs automated test and security gates and applies database migrations before anything reaches production.",
+        heading: "A tailored, modular system on a modern stack",
+        body: "The final phase hands the client a fully tailored, modular system that cuts the non-creative work for good. It's built on a deliberately modern, well-resourced stack — Next.js, React, Tailwind, and TypeScript on the front, PostgreSQL and Python behind it — and wired to whatever the workflow actually touches: Gmail, Apify, Deepgram, Mail Meteor, Stripe, essentially any service with an API. The LLM is chosen per system, matched to what that particular automation needs rather than forced to one provider. It ships to the client's own subdomain with ongoing monitoring and iteration.",
         points: [
-          "Stripe: subscription tiers + usage-based token packs via webhooks",
-          "RLS, rate limiting, OWASP-style audits, locked-down function perms",
-          "Vercel CI/CD: test + security gates and migrations on every deploy",
+          "Modern stack: Next.js, React, Tailwind, TypeScript · PostgreSQL, Python",
+          "Integrates anything with an API — Gmail, Apify, Deepgram, Mail Meteor, Stripe",
+          "LLM chosen per system; deployed to the client's own subdomain",
         ],
       },
       {
-        heading: "Shaping the story, not just the software",
-        body: "A technical co-founder who only writes code leaves the product half-sold. I also shaped brand and go-to-market — the landing narrative, the positioning, and the marketing assets that carry them. That work fed straight back into the design: the same read on who the agency buyer is drove both the pitch on the marketing site and the flows inside the app. It's the throughline of the whole project — one person holding the product, the engineering direction, and the story it tells, together, and carrying it from zero to a live, paying SaaS.",
+        heading: "Co-founders, split by strength",
+        body: "Halix is two engineers, not a solo act. Joshua Ali (Electrical Engineering) and I (Computer Engineering) co-founded it out of York, and we split the work by where each of us is strongest: we both run the client research and construct the workflow, and I lead the design and front-end from there. That division is why the product holds together — one person owning the way it looks and feels across the marketing site and the client systems, so the whole thing reads as one considered build rather than a stitch of separate parts.",
       },
     ],
   },
