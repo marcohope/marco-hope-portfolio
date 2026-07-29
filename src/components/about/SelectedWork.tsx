@@ -24,11 +24,13 @@ const STATUS: Record<string, { label: string; dot: string }> = {
   shipped: { label: "Shipped", dot: "bg-gold" },
 };
 
-// The five flagship builds carry the whole section as full-width hero cards, in
-// this deliberate order (Halix leads). The full catalogue — incl. Minoa and the
-// hardware / IRL builds — lives on /work. `visit` false = the project's live URL
-// is this very site, so the card links its image to the case study instead of
-// out; `caseStudy` true adds a "Read case study" action into /work.
+// The six flagship builds carry the whole section as full-width hero cards, in
+// this deliberate order (Halix leads, its internal tool follows). The full
+// catalogue — incl. Minoa and the hardware / IRL builds — lives on /work.
+// `visit` false = the project has no external URL to send people to (it's this
+// very site, or an internal tool), so the card links its image to the case
+// study instead of out; `caseStudy` true adds a "Read case study" action into
+// /work.
 const FEATURED: {
   code: string;
   label: string;
@@ -37,10 +39,11 @@ const FEATURED: {
   caseStudy?: boolean;
 }[] = [
   { code: "HX-001", label: "Main project", kanji: "主作", caseStudy: true },
+  { code: "HN-010", label: "Latest build", kanji: "新作", visit: false, caseStudy: true },
   { code: "6A-008", label: "Featured build", kanji: "秀作" },
   { code: "NS-007", label: "Signature build", kanji: "名作" },
   { code: "PF-003", label: "This very site", kanji: "雅", visit: false, caseStudy: true },
-  { code: "FR-009", label: "Latest build", kanji: "新作" },
+  { code: "FR-009", label: "Quiet build", kanji: "静" },
 ];
 const featuredProjects = FEATURED.map((f) => ({
   ...f,

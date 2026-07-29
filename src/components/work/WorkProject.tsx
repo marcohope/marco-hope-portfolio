@@ -88,6 +88,11 @@ export function WorkProject({ project }: { project: Project }) {
             {/* Photos */}
             <div className="mt-7">
               <WorkGallery images={project.images} title={project.name} />
+              {study?.mediaNote ? (
+                <p className="mt-2 text-xs text-foreground/45">
+                  {study.mediaNote}
+                </p>
+              ) : null}
             </div>
 
             {study ? (

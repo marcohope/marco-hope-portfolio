@@ -28,6 +28,14 @@ import roseHeroDark from "@/assets/about/field-of-roses/rose-hero-dark.png";
 import roseSeasons from "@/assets/about/field-of-roses/rose-seasons.png";
 import roseQuotes from "@/assets/about/field-of-roses/rose-quotes.png";
 import roseLetters from "@/assets/about/field-of-roses/rose-letters.png";
+import hnPortfolioBg from "@/assets/about/honey-notes/hn-portfolio-bg.png";
+import hnHome from "@/assets/about/honey-notes/hn-home.png";
+import hnTranscript from "@/assets/about/honey-notes/hn-transcript.png";
+import hnMeeting from "@/assets/about/honey-notes/hn-meeting.png";
+import hnSummary from "@/assets/about/honey-notes/hn-summary.png";
+import hnPauseMarker from "@/assets/about/honey-notes/hn-pause-marker.png";
+import hnPlayback from "@/assets/about/honey-notes/hn-playback.png";
+import hnLibrary from "@/assets/about/honey-notes/hn-library.png";
 import fmRadio from "@/assets/about/fm-radio/irl-picture-of-radio.png";
 import plantSetup from "@/assets/about/plantproj/plantproj-setup-main.png";
 import plantFlow from "@/assets/about/plantproj/plantproj-flow-chart.png";
@@ -195,6 +203,44 @@ export const profile = {
       ],
       reflection:
         "The discipline is drawing the line in the right place: automate the busywork, never the creative a client's customers actually see. Co-founding means splitting by strength — Josh and I both sit in the research and shape the workflow, and I take the design and front-end from there.",
+    },
+    {
+      code: "HN-010",
+      name: "Honey Notes",
+      role: "Design + Build",
+      kind: "Local-First Meeting Note Taker",
+      status: "shipped",
+      year: "2026",
+      featured: false,
+      blurb:
+        "A local-first meeting note taker that doesn't join calls as a bot — it records the mic and the machine's system audio as two separate tracks, transcribes locally with whisper.cpp, and summarizes on demand. Built in three days as Halix Solutions' internal tool.",
+      metric: "3 DAYS · 553 TESTS",
+      href: "",
+      repo: "",
+      image: hnPortfolioBg,
+      images: [
+        hnHome,
+        hnTranscript,
+        hnMeeting,
+        hnSummary,
+        hnPauseMarker,
+        hnPlayback,
+        hnLibrary,
+      ],
+      tech: ["typescript", "electron", "react", "tailwind", "nodejs"],
+      problem:
+        "Meeting apps charge monthly for a bot that joins your calls and ships features on someone else's roadmap. Halix needed its own note taker — one that captures the conversation on the machine itself and keeps every recording there.",
+      approach: [
+        "Captured the mic and the machine's system audio as two separate tracks, never mixed — so speaker attribution comes free, with no diarization model guessing who said what.",
+        "Transcribed locally with whisper.cpp and merged the two segment lists by timestamp into one interleaved conversation; summaries are a single MiniMax call, only on an explicit Summarize press.",
+        "Split the capture architecture per platform — a Core Audio tap in the main process on macOS, WASAPI loopback in the renderer on Windows — with one function deciding the strategy for both.",
+      ],
+      outcome: [
+        "Feature-complete v1 in two days — record, pause, transcribe, play back, summarize — with the Windows port and Google Calendar landing on day three.",
+        "Audio never leaves the machine, and meeting data crosses the network only on an explicit Summarize press.",
+      ],
+      reflection:
+        "The subscription was never about the money — it was about the roadmap. Owning the tool means a wanted feature ships the same day, and the test suite is what makes that pace safe.",
     },
     {
       code: "PF-003",
@@ -449,6 +495,8 @@ export type CaseStudy = {
   team: string;
   /** Honest AI-assistance disclosure — only where AI coding agents built it. */
   ai?: { tool: string; contribution: string };
+  /** Quiet disclosure rendered under the gallery (e.g. demo-data screenshots). */
+  mediaNote?: string;
   /** Lead overview paragraph — rendered as large lead type before the sections. */
   overview: string;
   /** Sections whose HEADING is the takeaway (not a generic "Problem/Approach"). */
@@ -679,6 +727,66 @@ export const caseStudies: Record<string, CaseStudy> = {
       {
         heading: "Co-founders, split by strength",
         body: "Halix is two engineers, not a solo act. Joshua Ali (Electrical Engineering) and I (Computer Engineering) co-founded it out of York, and we split the work by where each of us is strongest: we both run the client research and construct the workflow, and I lead the design and front-end from there. That division is why the product holds together — one person owning the way it looks and feels across the marketing site and the client systems, so the whole thing reads as one considered build rather than a stitch of separate parts.",
+      },
+    ],
+  },
+  "HN-010": {
+    outcome:
+      "The meeting note taker built for the Halix team — macOS and Windows, with every recording staying on the machine.",
+    team: "Solo — built as an internal tool for Halix Solutions",
+    ai: {
+      tool: "Claude Code",
+      contribution:
+        "Designed the system and directed Claude Code through the entire build — reviewing every diff and making every architecture and product call myself.",
+    },
+    mediaNote:
+      "Demo data — the meeting and everyone in it are fictional; the transcripts shown were generated from synthesized speech. No real client call appears here.",
+    overview:
+      "Honey Notes is a local-first meeting note taker, built for Halix Solutions' own use — because paying a monthly subscription for something buildable overnight felt wrong, and because a wanted feature should ship the same day, not sit on someone else's roadmap. No bot joins the call. It records both halves of the conversation itself — the mic on one track, the other side arriving through the speakers on another — runs whisper.cpp on-device, and summarizes only when asked. One design decision carries the whole app: keep the two sides separate, and speaker attribution comes free.",
+    sections: [
+      {
+        heading: "Three days, because the alternative was a subscription",
+        body: "Halix runs on client calls, and a call that isn't captured is a set of decisions that exist only in memory. The market answer is a monthly fee for a bot that joins your meetings. I built the alternative instead: 26–28 July, 25 commits. Day two ended with a feature-complete v1 — record, pause, transcribe, play back, summarize. Day three added the Windows port and Google Calendar. What keeps three days from reading as a warning is the test suite: 37 files, nearly a line of test for every line of source.",
+        points: [
+          "Feature-complete v1 on day two — record, pause, transcribe, play back, summarize",
+          "Day three: the Windows port and Google Calendar",
+          "Internal tool for Halix Solutions — nothing for sale",
+        ],
+      },
+      {
+        heading: "Two tracks captured separately — speaker attribution comes free",
+        body: "Honey Notes never joins a call as a bot. It sits on the machine and captures the meeting the way the machine already hears it: the microphone as one track, the system audio — the other side's voice coming out of the speakers — as a second. The two are never mixed, and that does the work a diarization model normally does: every segment already knows who said it, because it knows which file it came from. On stop, each WAV runs through whisper.cpp locally and the two segment lists merge by timestamp into one interleaved conversation.",
+        points: [
+          "Mic and system audio captured separately, never mixed — no diarization model anywhere",
+          "Two segment lists merged by timestamp into one interleaved conversation",
+          "Names snapshot onto the meeting row before the first sample — a rename never rewrites an old transcript",
+        ],
+      },
+      {
+        heading: "The same recording, captured backwards on each platform",
+        body: "System audio is the hard half, and each OS demanded the opposite answer. On macOS, a Core Audio tap captures it in the main process — Chromium's loopback path returns pure silence there (electron#49607). On Windows, WASAPI loopback through Chromium's getDisplayMedia works, but only in the renderer. So the two platforms run reverse architectures: main captures on one, the window captures on the other. One function in the main process picks the strategy and tells the renderer which side it owns. Both paths append to the same WAV; pause, transcription, and the merge never know the difference.",
+        points: [
+          "macOS: Core Audio tap in the main process; Windows: WASAPI loopback in the renderer",
+          "One function in main decides the strategy — the renderer is told, never guesses",
+          "Both paths write the same WAV, so everything downstream is shared",
+        ],
+      },
+      {
+        heading: "Privacy by architecture, not policy",
+        body: "Audio never leaves the machine: transcription is whisper.cpp running on-device. The transcript crosses the network exactly once — the only call that ever carries meeting data, to MiniMax, and only on an explicit Summarize press, behind a one-time consent gate enforced in the main process so a renderer bug can't skip it. Google Calendar is read-only, and every Google call lives in main, which is why the renderer's CSP names no Google origin. If a change ever needed one added, that's proof a call leaked into the window — the CSP is a tripwire, not configuration.",
+        points: [
+          "Meeting data crosses the network exactly once — MiniMax, on an explicit Summarize press",
+          "Consent gate enforced in the main process — a renderer bug can't skip it",
+          "Renderer CSP names no Google origin — a tripwire, not config",
+        ],
+      },
+      {
+        heading: "A summary that invents a person is refused",
+        body: "Summaries come back in five fixed sections — TL;DR, Decisions, Action Items, Open Questions, Timeline — and an empty section says “None”, so a missing heading always means a malformed response. Then the check that matters: every action item must be owned by one of the two speakers in that meeting. An owner outside that set means the model invented a third person — the hallucination that actually does damage in a meeting summary, because a fabricated name reads exactly as plausibly as a real one. That response is refused, not stored.",
+        points: [
+          "Every action item must be owned by one of the meeting's two speakers",
+          "An owner outside that set means a hallucinated person — refused, not stored",
+        ],
       },
     ],
   },
